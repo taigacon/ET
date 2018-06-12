@@ -70,7 +70,7 @@ namespace ETModel
 			this.children.Add(child);
 		}
 
-		public virtual void EndInit(Scene scene)
+		public virtual void EndInit(GameEntity gameEntity)
 		{
 		}
 

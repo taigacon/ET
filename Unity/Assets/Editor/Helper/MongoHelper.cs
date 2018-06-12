@@ -25,8 +25,6 @@ namespace ETModel
 				}
 				methodInfo.MakeGenericMethod(type).Invoke(null, null);
 			}
-
-			BsonSerializer.RegisterSerializer(new EnumSerializer<NumericType>(BsonType.String));
 		}
 
 		public static string ToJson(object obj)

@@ -38,8 +38,8 @@ namespace ETHotfix
 		{
 			this.handlers.Clear();
 
-			ETModel.MessageDispatherComponent messageDispatherComponent = ETModel.Game.Scene.GetComponent<ETModel.MessageDispatherComponent>();
-			ETModel.OpcodeTypeComponent opcodeTypeComponent = ETModel.Game.Scene.GetComponent<ETModel.OpcodeTypeComponent>();
+			ETModel.MessageDispatherComponent messageDispatherComponent = ETModel.Game.MessageDispatherComponent;
+			ETModel.OpcodeTypeComponent opcodeTypeComponent = ETModel.Game.OpcodeTypeComponent;
 
 			Type[] types = ETModel.Game.Hotfix.GetHotfixTypes();
 

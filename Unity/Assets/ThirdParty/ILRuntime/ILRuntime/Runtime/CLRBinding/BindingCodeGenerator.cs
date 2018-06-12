@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using ILRuntime.CLR.TypeSystem;
 using ILRuntime.Runtime.Enviorment;
 using ILRuntime.Other;
 
@@ -333,15 +334,18 @@ namespace ILRuntime.Runtime.Generated
             //Prewarm
             foreach (var type in arr)
             {
-                if (type is CLR.TypeSystem.ILType)
+	            var ilType = type as ILType;
+	            if (ilType != null)
                 {
-                    if (type.HasGenericParameter)
+					if(ilType.FullName.StartsWith("ILRuntime"))
+						continue;
+                    if (ilType.HasGenericParameter)
                         continue;
-                    var methods = type.GetMethods().ToList();
-                    foreach (var i in ((CLR.TypeSystem.ILType)type).GetConstructors())
+                    var methods = ilType.GetMethods().ToList();
+                    foreach (var i in ilType.GetConstructors())
                         methods.Add(i);
-                    if (((CLR.TypeSystem.ILType)type).GetStaticConstroctor() != null)
-                        methods.Add(((CLR.TypeSystem.ILType)type).GetStaticConstroctor());
+                    if (ilType.GetStaticConstroctor() != null)
+                        methods.Add(ilType.GetStaticConstroctor());
                     foreach (var j in methods)
                     {
                         CLR.Method.ILMethod method = j as CLR.Method.ILMethod;
@@ -357,12 +361,16 @@ namespace ILRuntime.Runtime.Generated
             arr = domain.LoadedTypes.Values.ToArray();
             foreach (var type in arr)
             {
-                if (type is CLR.TypeSystem.ILType)
+	            var ilType = type as ILType;
+	            if (ilType != null)
                 {
-                    if (type.TypeForCLR.IsByRef || type.HasGenericParameter)
+
+	                if (ilType.FullName.StartsWith("ILRuntime"))
+		                continue;
+					if (ilType.TypeForCLR.IsByRef || ilType.HasGenericParameter)
                         continue;
-                    var methods = type.GetMethods().ToList();
-                    foreach (var i in ((CLR.TypeSystem.ILType)type).GetConstructors())
+                    var methods = ilType.GetMethods().ToList();
+                    foreach (var i in ilType.GetConstructors())
                         methods.Add(i);
 
                     foreach (var j in methods)
@@ -475,7 +483,7 @@ namespace ILRuntime.Runtime.Generated
                                             if (m != null)
                                             {
                                                 //Cannot explicit call base class's constructor directly
-                                                if (m.IsConstructor && m.DeclearingType.CanAssignTo(((CLR.TypeSystem.ILType)type).FirstCLRBaseType))
+                                                if (m.IsConstructor && m.DeclearingType.CanAssignTo(ilType.FirstCLRBaseType))
                                                     continue;
                                                 if (m.IsConstructor)
                                                 {

@@ -19,12 +19,12 @@ namespace ETModel
 			{
 				try
 				{
-					using (BundleDownloaderComponent bundleDownloaderComponent = Game.Scene.AddComponent<BundleDownloaderComponent>())
+					using (BundleDownloaderComponent bundleDownloaderComponent = Game.Entity.AddComponent<BundleDownloaderComponent>())
 					{
 						await bundleDownloaderComponent.StartAsync();
 					}
-					Game.Scene.GetComponent<ResourcesComponent>().LoadOneBundle("StreamingAssets");
-					ResourcesComponent.AssetBundleManifestObject = (AssetBundleManifest)Game.Scene.GetComponent<ResourcesComponent>().GetAsset("StreamingAssets", "AssetBundleManifest");
+					Game.ResourcesComponent.LoadOneBundle("StreamingAssets");
+					ResourcesComponent.AssetBundleManifestObject = (AssetBundleManifest)Game.ResourcesComponent.GetAsset("StreamingAssets", "AssetBundleManifest");
 				}
 				catch (Exception e)
 				{

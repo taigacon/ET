@@ -6,13 +6,13 @@ namespace ETModel
     {
         public static Unit Create(long id)
         {
-	        ResourcesComponent resourcesComponent = Game.Scene.GetComponent<ResourcesComponent>();
+	        ResourcesComponent resourcesComponent = Game.ResourcesComponent;
 	        GameObject bundleGameObject = (GameObject)resourcesComponent.GetAsset("Unit.unity3d", "Unit");
 	        GameObject prefab = bundleGameObject.Get<GameObject>("Skeleton");
 	        
-            UnitComponent unitComponent = Game.Scene.GetComponent<UnitComponent>();
+            UnitComponent unitComponent = Game.UnitComponent;
             
-	        Unit unit = ComponentFactory.CreateWithId<Unit>(id);
+	        Unit unit = ObjectFactory.CreateWithId<Unit>(id);
 	        unit.GameObject = UnityEngine.Object.Instantiate(prefab);
 	        GameObject parent = GameObject.Find($"/Global/Unit");
 	        unit.GameObject.transform.SetParent(parent.transform, false);

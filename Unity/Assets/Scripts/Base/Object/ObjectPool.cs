@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace ETModel
 {
+
     public class ObjectPool
     {
         private readonly Dictionary<Type, Queue<Component>> dictionary = new Dictionary<Type, Queue<Component>>();
@@ -45,5 +46,10 @@ namespace ETModel
             }
             queue.Enqueue(obj);
         }
+
+	    public void Close()
+	    {
+			this.dictionary.Clear();
+	    }
     }
 }

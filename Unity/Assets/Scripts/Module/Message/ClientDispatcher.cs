@@ -32,13 +32,13 @@ namespace ETModel
 			FrameMessage frameMessage = message as FrameMessage;
 			if (frameMessage != null)
 			{
-				Game.Scene.GetComponent<ClientFrameComponent>().Add(session, frameMessage);
+				Game.ClientFrameComponent.Add(session, frameMessage);
 				return;
 			}
 
 			// 普通消息或者是Rpc请求消息
 			MessageInfo messageInfo = new MessageInfo(packet.Opcode, message);
-			Game.Scene.GetComponent<MessageDispatherComponent>().Handle(session, messageInfo);
+			Game.MessageDispatherComponent.Handle(session, messageInfo);
 		}
 	}
 }

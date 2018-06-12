@@ -9,7 +9,7 @@ namespace ETModel
 		{
 			try
 			{
-				GameObject config = (GameObject)Game.Scene.GetComponent<ResourcesComponent>().GetAsset("config.unity3d", "Config");
+				GameObject config = (GameObject)Game.ResourcesComponent.GetAsset("config.unity3d", "Config");
 				string configStr = config.Get<TextAsset>(key).text;
 				return configStr;
 			}

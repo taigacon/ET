@@ -45,5 +45,10 @@ namespace ETHotfix
 			}
 			queue.Enqueue(obj);
 		}
+
+		public void Close()
+		{
+			this.dictionary.Clear();
+		}
 	}
 }

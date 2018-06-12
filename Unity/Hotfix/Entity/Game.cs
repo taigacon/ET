@@ -1,48 +1,37 @@
-﻿namespace ETHotfix
+﻿using ETModel;
+
+namespace ETHotfix
 {
 	public static class Game
 	{
-		private static Scene scene;
+		public static GameEntity Entity { get; private set; }
 
-		public static Scene Scene
+		public static EventSystem EventSystem { get; } = new EventSystem();
+
+		public static ObjectPool ObjectPool { get; } = new ObjectPool();
+
+		public static Hotfix Hotfix { get; private set; }
+
+		public static void Init()
 		{
-			get
-			{
-				if (scene != null)
-				{
-					return scene;
-				}
-				scene = new Scene();
-				return scene;
-			}
+			Entity = new GameEntity();
+			PanelManager = Entity.AddComponent<PanelManager>();
+			OpcodeTypeComponent = Entity.AddComponent<OpcodeTypeComponent>();
+			MessageDispatherComponent = Entity.AddComponent<MessageDispatherComponent>();
+			Hotfix = ETModel.Game.Hotfix;
+			ResourcesComponent = ETModel.Game.ResourcesComponent;
 		}
-
-		private static EventSystem eventSystem;
-
-		public static EventSystem EventSystem
-		{
-			get
-			{
-				return eventSystem ?? (eventSystem = new EventSystem());
-			}
-		}
-
-		private static ObjectPool objectPool;
-
-		public static ObjectPool ObjectPool
-		{
-			get
-			{
-				return objectPool ?? (objectPool = new ObjectPool());
-			}
-		}
+		public static PanelManager PanelManager { get; private set; }
+		public static OpcodeTypeComponent OpcodeTypeComponent { get; private set; }
+		public static MessageDispatherComponent MessageDispatherComponent { get; private set; }
+		public static ResourcesComponent ResourcesComponent { get; private set; }
 
 		public static void Close()
 		{
-			scene.Dispose();
-			scene = null;
-			eventSystem = null;
-			objectPool = null;
+			Entity?.Dispose();
+			Entity = null;
+			EventSystem.Close();
+			ObjectPool.Close();
 		}
 	}
 }

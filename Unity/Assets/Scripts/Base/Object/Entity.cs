@@ -6,25 +6,12 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace ETModel
 {
 	[BsonIgnoreExtraElements]
-	public class Entity : ComponentWithId
+	public class Entity : Object
 	{
-		[BsonElement]
-		[BsonIgnoreIfNull]
-		private HashSet<Component> components;
-
-		[BsonIgnore]
-		private Dictionary<Type, Component> componentDict;
+		private readonly Dictionary<Type, Component> componentDict = new Dictionary<Type, Component>();
 
 		public Entity()
 		{
-			this.components = new HashSet<Component>();
-			this.componentDict = new Dictionary<Type, Component>();
-		}
-
-		protected Entity(long id): base(id)
-		{
-			this.components = new HashSet<Component>();
-			this.componentDict = new Dictionary<Type, Component>();
 		}
 
 		public override void Dispose()
@@ -40,6 +27,7 @@ namespace ETModel
 			{
 				try
 				{
+					component.Parent = null;
 					component.Dispose();
 				}
 				catch (Exception e)
@@ -48,7 +36,6 @@ namespace ETModel
 				}
 			}
 
-			this.components.Clear();
 			this.componentDict.Clear();
 		}
 		
@@ -57,13 +44,9 @@ namespace ETModel
 			Type type = component.GetType();
 			if (this.componentDict.ContainsKey(type))
 			{
-				throw new Exception($"AddComponent, component already exist, id: {this.Id}, component: {type.Name}");
+				throw new Exception($"AddComponent, component already exist, id: {this.InstanceId}, component: {type.Name}");
 			}
 
-			if (component is ISerializeToEntity)
-			{
-				this.components.Add(component);
-			}
 			this.componentDict.Add(type, component);
 			return component;
 		}
@@ -72,15 +55,11 @@ namespace ETModel
 		{
 			if (this.componentDict.ContainsKey(type))
 			{
-				throw new Exception($"AddComponent, component already exist, id: {this.Id}, component: {type.Name}");
+				throw new Exception($"AddComponent, component already exist, id: {this.InstanceId}, component: {type.Name}");
 			}
 
-			Component component = ComponentFactory.CreateWithParent(type, this);
+			Component component = ObjectFactory.CreateWithParent(type, this);
 
-			if (component is ISerializeToEntity)
-			{
-				this.components.Add(component);
-			}
 			this.componentDict.Add(type, component);
 			return component;
 		}
@@ -90,15 +69,11 @@ namespace ETModel
 			Type type = typeof (K);
 			if (this.componentDict.ContainsKey(type))
 			{
-				throw new Exception($"AddComponent, component already exist, id: {this.Id}, component: {typeof(K).Name}");
+				throw new Exception($"AddComponent, component already exist, id: {this.InstanceId}, component: {typeof(K).Name}");
 			}
 
-			K component = ComponentFactory.CreateWithParent<K>(this);
+			K component = ObjectFactory.CreateWithParent<K>(this);
 
-			if (component is ISerializeToEntity)
-			{
-				this.components.Add(component);
-			}
 			this.componentDict.Add(type, component);
 			return component;
 		}
@@ -108,15 +83,11 @@ namespace ETModel
 			Type type = typeof (K);
 			if (this.componentDict.ContainsKey(type))
 			{
-				throw new Exception($"AddComponent, component already exist, id: {this.Id}, component: {typeof(K).Name}");
+				throw new Exception($"AddComponent, component already exist, id: {this.InstanceId}, component: {typeof(K).Name}");
 			}
 
-			K component = ComponentFactory.CreateWithParent<K, P1>(this, p1);
-			
-			if (component is ISerializeToEntity)
-			{
-				this.components.Add(component);
-			}
+			K component = ObjectFactory.CreateWithParent<K, P1>(this, p1);
+
 			this.componentDict.Add(type, component);
 			return component;
 		}
@@ -126,15 +97,11 @@ namespace ETModel
 			Type type = typeof (K);
 			if (this.componentDict.ContainsKey(type))
 			{
-				throw new Exception($"AddComponent, component already exist, id: {this.Id}, component: {typeof(K).Name}");
+				throw new Exception($"AddComponent, component already exist, id: {this.InstanceId}, component: {typeof(K).Name}");
 			}
 
-			K component = ComponentFactory.CreateWithParent<K, P1, P2>(this, p1, p2);
-			
-			if (component is ISerializeToEntity)
-			{
-				this.components.Add(component);
-			}
+			K component = ObjectFactory.CreateWithParent<K, P1, P2>(this, p1, p2);
+
 			this.componentDict.Add(type, component);
 			return component;
 		}
@@ -144,15 +111,11 @@ namespace ETModel
 			Type type = typeof (K);
 			if (this.componentDict.ContainsKey(type))
 			{
-				throw new Exception($"AddComponent, component already exist, id: {this.Id}, component: {typeof(K).Name}");
+				throw new Exception($"AddComponent, component already exist, id: {this.InstanceId}, component: {typeof(K).Name}");
 			}
 
-			K component = ComponentFactory.CreateWithParent<K, P1, P2, P3>(this, p1, p2, p3);
-			
-			if (component is ISerializeToEntity)
-			{
-				this.components.Add(component);
-			}
+			K component = ObjectFactory.CreateWithParent<K, P1, P2, P3>(this, p1, p2, p3);
+
 			this.componentDict.Add(type, component);
 			return component;
 		}
@@ -166,7 +129,6 @@ namespace ETModel
 				return;
 			}
 
-			this.components.Remove(component);
 			this.componentDict.Remove(type);
 
 			component.Dispose();
@@ -179,8 +141,7 @@ namespace ETModel
 			{
 				return;
 			}
-
-			this.components?.Remove(component);
+			
 			this.componentDict.Remove(type);
 
 			component.Dispose();
@@ -206,52 +167,9 @@ namespace ETModel
 			return component;
 		}
 
-		public Component[] GetComponents()
+		public IEnumerable<Component> GetComponents()
 		{
-			return this.componentDict.Values.ToArray();
-		}
-
-		public override void EndInit()
-		{
-			try
-			{
-				base.EndInit();
-				
-				this.componentDict.Clear();
-
-				if (this.components != null)
-				{
-					foreach (Component component in this.components)
-					{
-						component.Parent = this;
-						this.componentDict.Add(component.GetType(), component);
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				Log.Error(e);
-			}
-		}
-
-		public override void BeginSerialize()
-		{
-			base.BeginSerialize();
-
-			foreach (Component component in this.components)
-			{
-				component.BeginSerialize();
-			}
-		}
-
-		public override void EndDeSerialize()
-		{
-			base.EndDeSerialize();
-			
-			foreach (Component component in this.components)
-			{
-				component.EndDeSerialize();
-			}
+			return this.componentDict.Values;
 		}
 	}
 }

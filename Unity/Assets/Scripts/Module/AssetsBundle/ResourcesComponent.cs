@@ -306,7 +306,7 @@ namespace ETModel
 				p = Path.Combine(PathHelper.AppResPath, assetBundleName);
 			}
 			
-			using (AssetsBundleLoaderAsync assetsBundleLoaderAsync = ComponentFactory.Create<AssetsBundleLoaderAsync>())
+			using (AssetsBundleLoaderAsync assetsBundleLoaderAsync = ObjectFactory.Create<AssetsBundleLoaderAsync>())
 			{
 				assetBundle = await assetsBundleLoaderAsync.LoadAsync(p);
 			}
@@ -320,7 +320,7 @@ namespace ETModel
 			{
 				// 异步load资源到内存cache住
 				UnityEngine.Object[] assets;
-				using (AssetsLoaderAsync assetsLoaderAsync = ComponentFactory.Create<AssetsLoaderAsync, AssetBundle>(assetBundle))
+				using (AssetsLoaderAsync assetsLoaderAsync = ObjectFactory.Create<AssetsLoaderAsync, AssetBundle>(assetBundle))
 				{
 					assets = await assetsLoaderAsync.LoadAllAssetsAsync();
 				}

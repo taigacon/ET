@@ -64,6 +64,7 @@
     <Compile Include="Base\Object\IComponentSerialize.cs" />
     <Compile Include="Base\Object\IDestroySystem.cs" />
     <Compile Include="Base\Object\IStartSystem.cs" />
+    <Compile Include="Entity\GameEntity.cs" />
     <Compile Include="Module\FrameSync\OperaComponent.cs" />
     <Compile Include="Entity\Config\UnitConfig.cs" />
     <Compile Include="Module\FrameSync\TestHotfixSubscribMonoEvent_LogString.cs" />
@@ -94,25 +95,26 @@
     <Compile Include="Base\Object\ObjectPool.cs" />
     <Compile Include="Module\Message\SessionComponent.cs" />
     <Compile Include="Module\Message\Session.cs" />
-    <Compile Include="Module\UI\IUIFactory.cs" />
     <Compile Include="Module\Message\MessageDispatherComponent.cs" />
     <Compile Include="Module\Message\OpcodeTypeComponent.cs" />
-    <Compile Include="Module\UI\UIComponent.cs" />
     <Compile Include="Entity\Game.cs" />
-    <Compile Include="Entity\Scene.cs" />
     <Compile Include="Module\Message\HotfixMessage.cs" />
-    <Compile Include="Module\UI\UI.cs" />
     <Compile Include="Init.cs" />
     <Compile Include="Module\Message\HotfixOpcode.cs" />
+    <Compile Include="Module\Reflection\PropertyCache.cs" />
+    <Compile Include="Module\Reflection\PropertyUtil.cs" />
+    <Compile Include="Module\UIBind\DataCell.cs" />
+    <Compile Include="Module\UIBind\DataEventSet.cs" />
+    <Compile Include="Module\UIBind\DataSet.cs" />
+    <Compile Include="Module\UI\IUIFactory.cs" />
+    <Compile Include="Module\UI\UI.cs" />
+    <Compile Include="Module\UI\UIComponent.cs" />
     <Compile Include="Module\UI\UIType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\UILobby\Component\UILobbyComponent.cs" />
-    <Compile Include="UI\UILobby\Factory\UILobbyFactory.cs" />
-    <Compile Include="UI\UILogin\Component\UILoginComponent.cs" />
-    <Compile Include="UI\UILogin\Event\InitSceneStart_CreateLoginUI.cs" />
-    <Compile Include="UI\UILogin\Factory\UILoginFactory.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="UI\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Unity.csproj">
       <Project>{cf118143-7e37-744f-be45-3f55345fec40}</Project>

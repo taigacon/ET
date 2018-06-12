@@ -2,59 +2,51 @@
 {
 	public static class Game
 	{
-		private static Scene scene;
+		public static GameEntity Entity { get; private set; }
 
-		public static Scene Scene
+		public static void Init()
 		{
-			get
-			{
-				if (scene != null)
-				{
-					return scene;
-				}
-				scene = new Scene();
-				scene.AddComponent<TimerComponent>();
-				return scene;
-			}
+			Entity = new GameEntity();
+			GlobalConfigComponent = Entity.AddComponent<GlobalConfigComponent>();
+			NetOuterComponent = Entity.AddComponent<NetOuterComponent>();
+			ResourcesComponent = Entity.AddComponent<ResourcesComponent>();
+			BehaviorTreeComponent = Entity.AddComponent<BehaviorTreeComponent>();
+			PlayerComponent = Entity.AddComponent<PlayerComponent>();
+			UnitComponent = Entity.AddComponent<UnitComponent>();
+			ClientFrameComponent = Entity.AddComponent<ClientFrameComponent>();
+			PanelManager = Entity.AddComponent<PanelManager>();
+			OpcodeTypeComponent = Entity.AddComponent<OpcodeTypeComponent>();
+			MessageDispatherComponent = Entity.AddComponent<MessageDispatherComponent>();
 		}
 
-		private static EventSystem eventSystem;
+		public static EventSystem EventSystem { get; } = new EventSystem();
 
-		public static EventSystem EventSystem
-		{
-			get
-			{
-				return eventSystem ?? (eventSystem = new EventSystem());
-			}
-		}
+		public static ObjectPool ObjectPool { get; } = new ObjectPool();
 
-		private static ObjectPool objectPool;
+		public static Hotfix Hotfix { get; } = new Hotfix();
 
-		public static ObjectPool ObjectPool
-		{
-			get
-			{
-				return objectPool ?? (objectPool = new ObjectPool());
-			}
-		}
+		#region Components
 
-		private static Hotfix hotfix;
+		public static GlobalConfigComponent GlobalConfigComponent { get; private set; }
+		public static NetOuterComponent NetOuterComponent { get; private set; }
+		public static ResourcesComponent ResourcesComponent { get; private set; }
+		public static BehaviorTreeComponent BehaviorTreeComponent { get; private set; }
+		public static PlayerComponent PlayerComponent { get; private set; }
+		public static UnitComponent UnitComponent { get; private set; }
+		public static ClientFrameComponent ClientFrameComponent { get; private set; }
+		public static PanelManager PanelManager { get; private set; }
+		public static OpcodeTypeComponent OpcodeTypeComponent { get; private set; }
+		public static MessageDispatherComponent MessageDispatherComponent { get; private set; }
 
-		public static Hotfix Hotfix
-		{
-			get
-			{
-				return hotfix ?? (hotfix = new Hotfix());
-			}
-		}
+		#endregion
 
 		public static void Close()
 		{
-			scene.Dispose();
-			eventSystem = null;
-			scene = null;
-			objectPool = null;
-			hotfix = null;
+			Entity?.Dispose();
+			Entity = null;
+			EventSystem.Close();
+			ObjectPool.Close();
+			Hotfix.Close();
 		}
 	}
 }

@@ -45,7 +45,7 @@ namespace ETHotfix
 			ushort opcode = p.Opcode;
 			byte flag = p.Flag;
 
-			OpcodeTypeComponent opcodeTypeComponent = Game.Scene.GetComponent<OpcodeTypeComponent>();
+			OpcodeTypeComponent opcodeTypeComponent = Game.OpcodeTypeComponent;
 			Type responseType = opcodeTypeComponent.GetType(opcode);
 			object message = ProtobufHelper.FromBytes(responseType, p.Bytes, Packet.Index, p.Length - Packet.Index);
 
@@ -68,7 +68,7 @@ namespace ETHotfix
 				return;
 			}
 
-			Game.Scene.GetComponent<MessageDispatherComponent>().Handle(session, new MessageInfo(opcode, message));
+			Game.MessageDispatherComponent.Handle(session, new MessageInfo(opcode, message));
 		}
 
 		public void Send(IMessage message)
@@ -78,7 +78,7 @@ namespace ETHotfix
 
 		public void Send(byte flag, IMessage message)
 		{
-			ushort opcode = Game.Scene.GetComponent<OpcodeTypeComponent>().GetOpcode(message.GetType());
+			ushort opcode = Game.OpcodeTypeComponent.GetOpcode(message.GetType());
 			byte[] bytes = ProtobufHelper.ToBytes(message);
 			session.Send(flag, opcode, bytes);
 		}

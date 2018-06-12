@@ -4,8 +4,8 @@
     {
         public static Player Create(long id)
         {
-            Player player = ComponentFactory.CreateWithId<Player>(id);
-            PlayerComponent playerComponent = Game.Scene.GetComponent<PlayerComponent>();
+            Player player = ObjectFactory.CreateWithId<Player>(id);
+            PlayerComponent playerComponent = Game.PlayerComponent;
             playerComponent.Add(player);
             return player;
         }

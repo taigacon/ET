@@ -9,21 +9,21 @@ namespace ETModel
 		/// 客户端时间
 		/// </summary>
 		/// <returns></returns>
-		public static long ClientNow()
+		public static ulong ClientNow()
 		{
-			return (DateTime.UtcNow.Ticks - epoch) / 10000;
+			return (ulong)(DateTime.UtcNow.Ticks - epoch) / 10000;
 		}
 
-		public static long ClientNowSeconds()
+		public static ulong ClientNowSeconds()
 		{
-			return (DateTime.UtcNow.Ticks - epoch) / 10000000;
+			return (ulong)(DateTime.UtcNow.Ticks - epoch) / 10000000;
 		}
 
 		/// <summary>
 		/// 登陆前是客户端时间,登陆后是同步过的服务器时间
 		/// </summary>
 		/// <returns></returns>
-		public static long Now()
+		public static ulong Now()
 		{
 			return ClientNow();
 		}

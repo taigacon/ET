@@ -122,7 +122,7 @@ namespace ETModel
 		private Node CreateTreeNode(NodeProto proto)
 		{
 			Node node = this.CreateOneNode(proto);
-			node.EndInit(this.GetParent<Scene>());
+			node.EndInit(this.GetParent<GameEntity>());
 
 			if (proto.Children == null)
 			{
@@ -137,12 +137,12 @@ namespace ETModel
 			return node;
 		}
 
-		public BehaviorTree CreateTree(Scene scene, GameObject treeGo)
+		public BehaviorTree CreateTree(GameEntity gameEntity, GameObject treeGo)
 		{
-			return this.CreateTree(scene, 0, treeGo);
+			return this.CreateTree(gameEntity, 0, treeGo);
 		}
 
-		public BehaviorTree CreateTree(Scene scene, long ownerId, GameObject treeGo)
+		public BehaviorTree CreateTree(GameEntity gameEntity, long ownerId, GameObject treeGo)
 		{
 			try
 			{
@@ -160,7 +160,7 @@ namespace ETModel
 				BehaviorTreeConfig behaviorTreeConfig = treeGo.GetComponent<BehaviorTreeConfig>();
 				Node node = this.CreateTreeNode(behaviorTreeConfig.RootNodeProto);
 
-				tree = new BehaviorTree(scene, ownerId, node) {GameObjectId = treeGo.GetInstanceID()};
+				tree = new BehaviorTree(gameEntity, ownerId, node) {GameObjectId = treeGo.GetInstanceID()};
 				if (Define.IsAsync)
 				{
 					this.treeCache.Add(treeGo, tree);

@@ -54,7 +54,7 @@ namespace ETModel
 	            Type type = opcodeTypeComponent.GetType(oneFrameMessage.Op);
 
 	            IMessage message = (IMessage)session.Network.MessagePacker.DeserializeFrom(type, oneFrameMessage.AMessage);
-                Game.Scene.GetComponent<MessageDispatherComponent>().Handle(sessionFrameMessage.Session, new MessageInfo(oneFrameMessage.Op, message));
+                Game.MessageDispatherComponent.Handle(sessionFrameMessage.Session, new MessageInfo(oneFrameMessage.Op, message));
             }
         }
     }

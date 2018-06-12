@@ -12,7 +12,7 @@ using ETModel;
 public class ILRuntimeCLRBinding
 {
     [MenuItem("Tools/ILRuntime/Generate CLR Binding Code")]
-    static void GenerateCLRBinding()
+    public static void GenerateCLRBinding()
     {
         List<Type> types = new List<Type>();
         types.Add(typeof(int));
@@ -38,7 +38,7 @@ public class ILRuntimeCLRBinding
     }
 
     [MenuItem("Tools/ILRuntime/Generate CLR Binding Code by Analysis")]
-    static void GenerateCLRBindingByAnalysis()
+    public static void GenerateCLRBindingByAnalysis()
     {
         //用新的分析热更dll调用引用来生成绑定代码
         ILRuntime.Runtime.Enviorment.AppDomain domain = new ILRuntime.Runtime.Enviorment.AppDomain();

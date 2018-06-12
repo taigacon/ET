@@ -91,8 +91,11 @@ namespace ETModel
 			}
 		}
 
-		private void Run(Packet packet)
+		private async void Run(Packet packet)
 		{
+			//交由Unity线程执行
+			await Awaiters.NextFrame;
+
 			byte flag = packet.Flag;
 			ushort opcode = packet.Opcode;
 

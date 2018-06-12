@@ -116,6 +116,25 @@ namespace ETHotfix
 
 			this.Load();
 		}
+		public void Close()
+		{
+			this.allComponents.Clear();
+			this.allEvents.Clear();
+			this.awakeSystems.Clear();
+			this.startSystems.Clear();
+			this.destroySystems.Clear();
+			this.loadSystems.Clear();
+			this.updateSystems.Clear();
+			this.lateUpdateSystems.Clear();
+			this.changeSystems.Clear();
+			this.updates.Clear();
+			this.updates2.Clear();
+			this.starts.Clear();
+			this.loaders.Clear();
+			this.loaders2.Clear();
+			this.lateUpdates.Clear();
+			this.lateUpdates2.Clear();
+		}
 
 		public static void Handle(string type, List<object> param)
 		{

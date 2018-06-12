@@ -80,7 +80,7 @@ namespace ETModel
 		public virtual async Task<Session> Accept()
 		{
 			AChannel channel = await this.Service.AcceptChannel();
-			Session session = ComponentFactory.CreateWithId<Session, NetworkComponent, AChannel>(IdGenerater.GenerateId(), this, channel);
+			Session session = ObjectFactory.CreateWithId<Session, NetworkComponent, AChannel>(IdGenerater.GenerateId(), this, channel);
 			session.Parent = this;
 			channel.ErrorCallback += (c, e) =>
 			{
@@ -120,7 +120,7 @@ namespace ETModel
 			try
 			{
 				AChannel channel = this.Service.ConnectChannel(ipEndPoint);
-				Session session = ComponentFactory.CreateWithId<Session, NetworkComponent, AChannel>(IdGenerater.GenerateId(), this, channel);
+				Session session = ObjectFactory.CreateWithId<Session, NetworkComponent, AChannel>(IdGenerater.GenerateId(), this, channel);
 				session.Parent = this;
 				channel.ErrorCallback += (c, e) =>
 				{

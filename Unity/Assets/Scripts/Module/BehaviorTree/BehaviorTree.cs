@@ -9,7 +9,7 @@ namespace ETModel
 		public int GameObjectId;
 		public List<long> PathList = new List<long>();
 		private readonly Node node;
-		public Scene Scene { get; }
+		public GameEntity GameEntity { get; }
 
 		public string Discription
 		{
@@ -19,10 +19,10 @@ namespace ETModel
 			}
 		}
 
-		public BehaviorTree(Scene scene, long id, Node node)
+		public BehaviorTree(GameEntity gameEntity, long id, Node node)
 		{
 			this.Id = id;
-			this.Scene = scene;
+			this.GameEntity = gameEntity;
 			this.node = node;
 		}
 

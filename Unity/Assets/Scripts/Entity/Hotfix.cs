@@ -54,7 +54,7 @@ namespace ETModel
 
 		public void LoadHotfixAssembly()
 		{
-			Game.Scene.GetComponent<ResourcesComponent>().LoadBundle($"code.unity3d");
+			Game.ResourcesComponent.LoadBundle($"code.unity3d");
 #if ILRuntime
 			this.appDomain = new ILRuntime.Runtime.Enviorment.AppDomain();
 			GameObject code = (GameObject)Game.Scene.GetComponent<ResourcesComponent>().GetAsset("code.unity3d", "Code");
@@ -69,7 +69,7 @@ namespace ETModel
 
 			this.start = new ILStaticMethod(this.appDomain, "ETHotfix.Init", "Start", 0);
 #else
-			GameObject code = (GameObject)Game.Scene.GetComponent<ResourcesComponent>().GetAsset("code.unity3d", "Code");
+			GameObject code = (GameObject)Game.ResourcesComponent.GetAsset("code.unity3d", "Code");
 			byte[] assBytes = code.Get<TextAsset>("Hotfix.dll").bytes;
 			byte[] mdbBytes = code.Get<TextAsset>("Hotfix.mdb").bytes;
 			this.assembly = Assembly.Load(assBytes, mdbBytes);
@@ -77,7 +77,16 @@ namespace ETModel
 			Type hotfixInit = this.assembly.GetType("ETHotfix.Init");
 			this.start = new MonoStaticMethod(hotfixInit, "Start");
 #endif
-			Game.Scene.GetComponent<ResourcesComponent>().UnloadBundle($"code.unity3d");
+			Game.ResourcesComponent.UnloadBundle($"code.unity3d");
+		}
+
+		public void Close()
+		{
+#if ILRuntime
+			appDomain = null;
+#else
+			assembly = null;
+#endif
 		}
 	}
 }

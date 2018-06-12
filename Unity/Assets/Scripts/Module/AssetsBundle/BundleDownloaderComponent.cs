@@ -37,7 +37,7 @@ namespace ETModel
 
 		public async Task StartAsync()
 		{
-			using (UnityWebRequestAsync webRequestAsync = ComponentFactory.Create<UnityWebRequestAsync>())
+			using (UnityWebRequestAsync webRequestAsync = ObjectFactory.Create<UnityWebRequestAsync>())
 			{
 				string versionUrl = GlobalConfigComponent.Instance.GlobalProto.GetUrl() + "StreamingAssets/" + "Version.txt";
 				//Log.Debug(versionUrl);
@@ -57,7 +57,7 @@ namespace ETModel
 			else
 			{
 				versionPath = Path.Combine(PathHelper.AppResPath4Web, "Version.txt");
-				using (UnityWebRequestAsync request = ComponentFactory.Create<UnityWebRequestAsync>())
+				using (UnityWebRequestAsync request = ObjectFactory.Create<UnityWebRequestAsync>())
 				{
 					await request.DownloadAsync(versionPath);
 					localVersionConfig = JsonHelper.FromJson<VersionConfig>(request.Request.downloadHandler.text);
@@ -123,7 +123,7 @@ namespace ETModel
 					{
 						try
 						{
-							using (this.webRequest = ComponentFactory.Create<UnityWebRequestAsync>())
+							using (this.webRequest = ObjectFactory.Create<UnityWebRequestAsync>())
 							{
 								await this.webRequest.DownloadAsync(GlobalConfigComponent.Instance.GlobalProto.GetUrl() + "StreamingAssets/" + this.downloadingBundle);
 								byte[] data = this.webRequest.Request.downloadHandler.data;

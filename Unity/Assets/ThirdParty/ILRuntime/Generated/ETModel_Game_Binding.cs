@@ -22,31 +22,29 @@ namespace ILRuntime.Runtime.Generated
             Type[] args;
             Type type = typeof(ETModel.Game);
             args = new Type[]{};
-            method = type.GetMethod("get_Scene", flag, null, args, null);
-            app.RegisterCLRMethodRedirection(method, get_Scene_0);
-            args = new Type[]{};
             method = type.GetMethod("get_Hotfix", flag, null, args, null);
-            app.RegisterCLRMethodRedirection(method, get_Hotfix_1);
+            app.RegisterCLRMethodRedirection(method, get_Hotfix_0);
+            args = new Type[]{};
+            method = type.GetMethod("get_ResourcesComponent", flag, null, args, null);
+            app.RegisterCLRMethodRedirection(method, get_ResourcesComponent_1);
             args = new Type[]{};
             method = type.GetMethod("get_EventSystem", flag, null, args, null);
             app.RegisterCLRMethodRedirection(method, get_EventSystem_2);
+            args = new Type[]{};
+            method = type.GetMethod("get_MessageDispatherComponent", flag, null, args, null);
+            app.RegisterCLRMethodRedirection(method, get_MessageDispatherComponent_3);
+            args = new Type[]{};
+            method = type.GetMethod("get_OpcodeTypeComponent", flag, null, args, null);
+            app.RegisterCLRMethodRedirection(method, get_OpcodeTypeComponent_4);
+            args = new Type[]{};
+            method = type.GetMethod("get_Entity", flag, null, args, null);
+            app.RegisterCLRMethodRedirection(method, get_Entity_5);
 
 
         }
 
 
-        static StackObject* get_Scene_0(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
-        {
-            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
-            StackObject* __ret = ILIntepreter.Minus(__esp, 0);
-
-
-            var result_of_this_method = ETModel.Game.Scene;
-
-            return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
-        }
-
-        static StackObject* get_Hotfix_1(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        static StackObject* get_Hotfix_0(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
             StackObject* __ret = ILIntepreter.Minus(__esp, 0);
@@ -57,6 +55,22 @@ namespace ILRuntime.Runtime.Generated
             return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
         }
 
+        static StackObject* get_ResourcesComponent_1(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            StackObject* __ret = ILIntepreter.Minus(__esp, 0);
+
+
+            var result_of_this_method = ETModel.Game.ResourcesComponent;
+
+            object obj_result_of_this_method = result_of_this_method;
+            if(obj_result_of_this_method is CrossBindingAdaptorType)
+            {    
+                return ILIntepreter.PushObject(__ret, __mStack, ((CrossBindingAdaptorType)obj_result_of_this_method).ILInstance);
+            }
+            return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
+        }
+
         static StackObject* get_EventSystem_2(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
         {
             ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
@@ -64,6 +78,49 @@ namespace ILRuntime.Runtime.Generated
 
 
             var result_of_this_method = ETModel.Game.EventSystem;
+
+            return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
+        }
+
+        static StackObject* get_MessageDispatherComponent_3(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            StackObject* __ret = ILIntepreter.Minus(__esp, 0);
+
+
+            var result_of_this_method = ETModel.Game.MessageDispatherComponent;
+
+            object obj_result_of_this_method = result_of_this_method;
+            if(obj_result_of_this_method is CrossBindingAdaptorType)
+            {    
+                return ILIntepreter.PushObject(__ret, __mStack, ((CrossBindingAdaptorType)obj_result_of_this_method).ILInstance);
+            }
+            return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
+        }
+
+        static StackObject* get_OpcodeTypeComponent_4(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            StackObject* __ret = ILIntepreter.Minus(__esp, 0);
+
+
+            var result_of_this_method = ETModel.Game.OpcodeTypeComponent;
+
+            object obj_result_of_this_method = result_of_this_method;
+            if(obj_result_of_this_method is CrossBindingAdaptorType)
+            {    
+                return ILIntepreter.PushObject(__ret, __mStack, ((CrossBindingAdaptorType)obj_result_of_this_method).ILInstance);
+            }
+            return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
+        }
+
+        static StackObject* get_Entity_5(ILIntepreter __intp, StackObject* __esp, IList<object> __mStack, CLRMethod __method, bool isNewObj)
+        {
+            ILRuntime.Runtime.Enviorment.AppDomain __domain = __intp.AppDomain;
+            StackObject* __ret = ILIntepreter.Minus(__esp, 0);
+
+
+            var result_of_this_method = ETModel.Game.Entity;
 
             return ILIntepreter.PushObject(__ret, __mStack, result_of_this_method);
         }
