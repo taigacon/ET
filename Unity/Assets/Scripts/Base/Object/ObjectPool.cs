@@ -6,44 +6,45 @@ namespace ETModel
 
     public class ObjectPool
     {
-        private readonly Dictionary<Type, Queue<Component>> dictionary = new Dictionary<Type, Queue<Component>>();
+        private readonly Dictionary<Type, Queue<Object>> dictionary = new Dictionary<Type, Queue<Object>>();
 
-        public Component Fetch(Type type)
+        public Object Fetch(Type type)
         {
-	        Queue<Component> queue;
+	        Queue<Object> queue;
             if (!this.dictionary.TryGetValue(type, out queue))
             {
-                queue = new Queue<Component>();
+                queue = new Queue<Object>();
                 this.dictionary.Add(type, queue);
             }
-	        Component obj;
+	        Object obj;
 			if (queue.Count > 0)
             {
 				obj = queue.Dequeue();
             }
 			else
 			{
-				obj = (Component)Activator.CreateInstance(type);	
+				obj = (Object)Activator.CreateInstance(type);	
 			}
-	        obj.IsFromPool = true;
+	        obj.IsDisposed = false;
             return obj;
         }
 
-        public T Fetch<T>() where T: Component
+        public T Fetch<T>() where T: Object
 		{
             T t = (T) this.Fetch(typeof(T));
 			return t;
 		}
         
-        public void Recycle(Component obj)
+        public void Recycle(Object obj)
         {
             Type type = obj.GetType();
-	        Queue<Component> queue;
+	        Queue<Object> queue;
             if (!this.dictionary.TryGetValue(type, out queue))
             {
-                queue = new Queue<Component>();
+                queue = new Queue<Object>();
 				this.dictionary.Add(type, queue);
             }
+	        obj.IsDisposed = true;
             queue.Enqueue(obj);
         }
 

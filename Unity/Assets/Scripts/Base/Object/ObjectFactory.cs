@@ -4,7 +4,7 @@ namespace ETModel
 {
 	public static class ObjectFactory
 	{
-		public static Component CreateWithParent(Type type, Component parent)
+		public static Component CreateComponentWithParent(Type type, Entity parent)
 		{
 			Component component = (Component)Game.ObjectPool.Fetch(type);
 			component.Parent = parent;
@@ -12,7 +12,7 @@ namespace ETModel
 			return component;
 		}
 
-		public static T CreateWithParent<T>(Component parent) where T : Component
+		public static T CreateComponentWithParent<T>(Entity parent) where T : Component
 		{
 			T component = Game.ObjectPool.Fetch<T>();
 			component.Parent = parent;
@@ -20,7 +20,7 @@ namespace ETModel
 			return component;
 		}
 
-		public static T CreateWithParent<T, A>(Component parent, A a) where T : Component
+		public static T CreateComponentWithParent<T, A>(Entity parent, A a) where T : Component
 		{
 			T component = Game.ObjectPool.Fetch<T>();
 			component.Parent = parent;
@@ -28,15 +28,15 @@ namespace ETModel
 			return component;
 		}
 
-		public static Component CreateWithParent<A>(Type type, Component parent, A a)
+		public static Component CreateComponentWithParent<A>(Type type, Entity parent, A a)
 		{
-			Component component = Game.ObjectPool.Fetch(type);
+			Component component = (Component)Game.ObjectPool.Fetch(type);
 			component.Parent = parent;
 			Game.EventSystem.Awake(component, a);
 			return component;
 		}
 
-		public static T CreateWithParent<T, A, B>(Component parent, A a, B b) where T : Component
+		public static T CreateComponentWithParent<T, A, B>(Entity parent, A a, B b) where T : Component
 		{
 			T component = Game.ObjectPool.Fetch<T>();
 			component.Parent = parent;
@@ -44,15 +44,15 @@ namespace ETModel
 			return component;
 		}
 
-		public static Component CreateWithParent<A, B>(Type type, Component parent, A a, B b)
+		public static Component CreateComponentWithParent<A, B>(Type type, Entity parent, A a, B b)
 		{
-			Component component = Game.ObjectPool.Fetch(type);
+			Component component = (Component)Game.ObjectPool.Fetch(type);
 			component.Parent = parent;
 			Game.EventSystem.Awake(component, a, b);
 			return component;
 		}
 
-		public static T CreateWithParent<T, A, B, C>(Component parent, A a, B b, C c) where T : Component
+		public static T CreateComponentWithParent<T, A, B, C>(Entity parent, A a, B b, C c) where T : Component
 		{
 			T component = Game.ObjectPool.Fetch<T>();
 			component.Parent = parent;
@@ -60,100 +60,24 @@ namespace ETModel
 			return component;
 		}
 
-		public static Component CreateWithParent<A, B, C>(Type type, Component parent, A a, B b, C c)
+		public static Component CreateComponentWithParent<A, B, C>(Type type, Entity parent, A a, B b, C c)
 		{
-			Component component = Game.ObjectPool.Fetch(type);
+			Component component = (Component)Game.ObjectPool.Fetch(type);
 			component.Parent = parent;
 			Game.EventSystem.Awake(component, a, b, c);
 			return component;
 		}
 
-		public static T Create<T>() where T : Component
+		public static T CreateEntity<T>() where T : Entity
 		{
-			T component = Game.ObjectPool.Fetch<T>();
-			Game.EventSystem.Awake(component);
-			return component;
+			T entity = Game.ObjectPool.Fetch<T>();
+			return entity;
 		}
 
-		public static Component Create(Type type)
+		public static Entity CreateEntity(Type type)
 		{
-			Component component = Game.ObjectPool.Fetch(type);
-			Game.EventSystem.Awake(component);
-			return component;
-		}
-
-		public static T Create<T, A>(A a) where T : Component
-		{
-			T component = Game.ObjectPool.Fetch<T>();
-			Game.EventSystem.Awake(component, a);
-			return component;
-		}
-
-		public static Component Create<A>(Type type, A a)
-		{
-			Component component = Game.ObjectPool.Fetch(type);
-			Game.EventSystem.Awake(component, a);
-			return component;
-		}
-
-		public static T Create<T, A, B>(A a, B b) where T : Component
-		{
-			T component = Game.ObjectPool.Fetch<T>();
-			Game.EventSystem.Awake(component, a, b);
-			return component;
-		}
-
-		public static Component Create<A, B>(Type type, A a, B b)
-		{
-			Component component = Game.ObjectPool.Fetch(type);
-			Game.EventSystem.Awake(component, a, b);
-			return component;
-		}
-
-		public static T Create<T, A, B, C>(A a, B b, C c) where T : Component
-		{
-			T component = Game.ObjectPool.Fetch<T>();
-			Game.EventSystem.Awake(component, a, b, c);
-			return component;
-		}
-
-		public static Component Create<A, B, C>(Type type, A a, B b, C c)
-		{
-			Component component = Game.ObjectPool.Fetch(type);
-			Game.EventSystem.Awake(component, a, b, c);
-			return component;
-		}
-
-		public static T CreateWithId<T>(long id) where T : ComponentWithId
-		{
-			T component = Game.ObjectPool.Fetch<T>();
-			component.Id = id;
-			Game.EventSystem.Awake(component);
-			return component;
-		}
-
-		public static T CreateWithId<T, A>(long id, A a) where T : ComponentWithId
-		{
-			T component = Game.ObjectPool.Fetch<T>();
-			component.Id = id;
-			Game.EventSystem.Awake(component, a);
-			return component;
-		}
-
-		public static T CreateWithId<T, A, B>(long id, A a, B b) where T : ComponentWithId
-		{
-			T component = Game.ObjectPool.Fetch<T>();
-			component.Id = id;
-			Game.EventSystem.Awake(component, a, b);
-			return component;
-		}
-
-		public static T CreateWithId<T, A, B, C>(long id, A a, B b, C c) where T : ComponentWithId
-		{
-			T component = Game.ObjectPool.Fetch<T>();
-			component.Id = id;
-			Game.EventSystem.Awake(component, a, b, c);
-			return component;
+			Entity entity = (Entity)Game.ObjectPool.Fetch(type);
+			return entity;
 		}
 	}
 }

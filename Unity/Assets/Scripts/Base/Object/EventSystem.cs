@@ -14,7 +14,7 @@ namespace ETModel
 
 	public sealed class EventSystem
 	{
-		private readonly Dictionary<long, Component> allComponents = new Dictionary<long, Component>();
+		private readonly Dictionary<ulong, Component> allComponents = new Dictionary<ulong, Component>();
 
 		private readonly Dictionary<DLLType, Assembly> assemblies = new Dictionary<DLLType, Assembly>();
 
@@ -34,16 +34,16 @@ namespace ETModel
 
 		private readonly UnOrderMultiMap<Type, IChangeSystem> changeSystems = new UnOrderMultiMap<Type, IChangeSystem>();
 
-		private Queue<long> updates = new Queue<long>();
-		private Queue<long> updates2 = new Queue<long>();
+		private Queue<ulong> updates = new Queue<ulong>();
+		private Queue<ulong> updates2 = new Queue<ulong>();
 		
-		private readonly Queue<long> starts = new Queue<long>();
+		private readonly Queue<ulong> starts = new Queue<ulong>();
 
-		private Queue<long> loaders = new Queue<long>();
-		private Queue<long> loaders2 = new Queue<long>();
+		private Queue<ulong> loaders = new Queue<ulong>();
+		private Queue<ulong> loaders2 = new Queue<ulong>();
 
-		private Queue<long> lateUpdates = new Queue<long>();
-		private Queue<long> lateUpdates2 = new Queue<long>();
+		private Queue<ulong> lateUpdates = new Queue<ulong>();
+		private Queue<ulong> lateUpdates2 = new Queue<ulong>();
 
 		public void Add(DLLType dllType, Assembly assembly)
 		{
@@ -198,12 +198,12 @@ namespace ETModel
 			}
 		}
 
-		public void Remove(long id)
+		public void Remove(ulong id)
 		{
 			this.allComponents.Remove(id);
 		}
 
-		public Component Get(long id)
+		public Component Get(ulong id)
 		{
 			Component component = null;
 			this.allComponents.TryGetValue(id, out component);
@@ -368,7 +368,7 @@ namespace ETModel
 		{
 			while (this.loaders.Count > 0)
 			{
-				long instanceId = this.loaders.Dequeue();
+				ulong instanceId = this.loaders.Dequeue();
 				Component component;
 				if (!this.allComponents.TryGetValue(instanceId, out component))
 				{
@@ -407,7 +407,7 @@ namespace ETModel
 		{
 			while (this.starts.Count > 0)
 			{
-				long instanceId = this.starts.Dequeue();
+				ulong instanceId = this.starts.Dequeue();
 				Component component;
 				if (!this.allComponents.TryGetValue(instanceId, out component))
 				{
@@ -466,7 +466,7 @@ namespace ETModel
 			
 			while (this.updates.Count > 0)
 			{
-				long instanceId = this.updates.Dequeue();
+				ulong instanceId = this.updates.Dequeue();
 				Component component;
 				if (!this.allComponents.TryGetValue(instanceId, out component))
 				{
@@ -505,7 +505,7 @@ namespace ETModel
 		{
 			while (this.lateUpdates.Count > 0)
 			{
-				long instanceId = this.lateUpdates.Dequeue();
+				ulong instanceId = this.lateUpdates.Dequeue();
 				Component component;
 				if (!this.allComponents.TryGetValue(instanceId, out component))
 				{

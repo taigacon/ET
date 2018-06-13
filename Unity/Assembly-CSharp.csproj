@@ -608,7 +608,6 @@
     <Compile Include="Assets\ThirdParty\ILRuntime\Mono.Cecil.Pdb\pdb\Mono.Cecil.Pdb\PdbWriter.cs" />
     <Compile Include="Assets\ThirdParty\ILRuntime\Mono.Cecil.Pdb\pdb\Mono.Cecil.Pdb\SymDocumentWriter.cs" />
     <Compile Include="Assets\ThirdParty\ILRuntime\Mono.Cecil.Pdb\pdb\Mono.Cecil.Pdb\SymWriter.cs" />
-    <Compile Include="Assets\ThirdParty\ILRuntime\Mono.Cecil.Pdb\Properties\AssemblyInfo.cs" />
     <Compile Include="Assets\ThirdParty\Protobuf\IExtensibleAdapter.cs" />
     <Compile Include="Assets\ThirdParty\Protobuf\protobuf-net\BclHelpers.cs" />
     <Compile Include="Assets\ThirdParty\Protobuf\protobuf-net\BufferExtension.cs" />
