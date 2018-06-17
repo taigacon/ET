@@ -1,4 +1,4 @@
-﻿namespace BK
+﻿namespace BKEditor
 {
     partial class Define
     {

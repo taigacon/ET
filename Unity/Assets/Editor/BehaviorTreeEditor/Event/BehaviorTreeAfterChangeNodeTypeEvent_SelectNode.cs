@@ -1,6 +1,6 @@
 ﻿using BK;
 
-namespace BK
+namespace BKEditor
 {
 	[Event(EventIdType.BehaviorTreeAfterChangeNodeType)]
 	public class BehaviorTreeAfterChangeNodeTypeEvent_SelectNode: AEvent

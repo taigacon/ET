@@ -1,6 +1,6 @@
 ﻿using BK;
 
-namespace BK
+namespace BKEditor
 {
 	[Event(EventIdType.BehaviorTreeOpenEditor)]
 	public class BehaviorTreeOpenEditorEvent_UpdatePropList: AEvent

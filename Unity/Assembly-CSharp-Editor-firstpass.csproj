@@ -154,18 +154,6 @@
  <Reference Include="Newtonsoft.Json">
  <HintPath>D:/ET/Unity/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
  </Reference>
- <Reference Include="NPOI">
- <HintPath>D:/ET/Unity/Assets/Plugins/Editor/npoi/NPOI.dll</HintPath>
- </Reference>
- <Reference Include="NPOI.OOXML">
- <HintPath>D:/ET/Unity/Assets/Plugins/Editor/npoi/NPOI.OOXML.dll</HintPath>
- </Reference>
- <Reference Include="NPOI.OpenXml4Net">
- <HintPath>D:/ET/Unity/Assets/Plugins/Editor/npoi/NPOI.OpenXml4Net.dll</HintPath>
- </Reference>
- <Reference Include="NPOI.OpenXmlFormats">
- <HintPath>D:/ET/Unity/Assets/Plugins/Editor/npoi/NPOI.OpenXmlFormats.dll</HintPath>
- </Reference>
  <Reference Include="UnityEditor.Advertisements">
  <HintPath>C:/Users/Taigacon/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.8/Editor/UnityEditor.Advertisements.dll</HintPath>
  </Reference>

@@ -5,7 +5,7 @@ using BK;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace BK
+namespace BKEditor
 {
 	public enum NodeChildLimitType
 	{

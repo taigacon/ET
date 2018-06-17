@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace BK
+namespace BKEditor
 {
 	public class AlterBundleNameWindow: EditorWindow
 	{

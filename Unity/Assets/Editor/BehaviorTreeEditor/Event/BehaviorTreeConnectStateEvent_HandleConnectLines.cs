@@ -1,6 +1,6 @@
 ﻿using BK;
 
-namespace BK
+namespace BKEditor
 {
 	[Event(EventIdType.BehaviorTreeConnectState)]
 	public class BehaviorTreeConnectStateEvent_HandleConnectLines: AEvent<NodeDesigner, State>

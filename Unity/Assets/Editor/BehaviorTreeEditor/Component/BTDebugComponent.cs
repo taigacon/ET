@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using BK;
 
-namespace BK
+namespace BKEditor
 {
 	public class BTDebugComponent: Component
 	{

@@ -2,7 +2,7 @@
 using BK;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace BK
+namespace BKEditor
 {
 	[BsonIgnoreExtraElements]
 	[Serializable]

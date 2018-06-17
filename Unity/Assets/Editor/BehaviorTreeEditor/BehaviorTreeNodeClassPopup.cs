@@ -4,7 +4,7 @@ using BK;
 using UnityEditor;
 using UnityEngine;
 
-namespace BK
+namespace BKEditor
 {
 	public class BehaviorTreeNodeClassPopup
 	{

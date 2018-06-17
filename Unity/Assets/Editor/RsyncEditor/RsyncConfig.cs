@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BK
+namespace BKEditor
 {
 	public class RsyncConfig
 	{

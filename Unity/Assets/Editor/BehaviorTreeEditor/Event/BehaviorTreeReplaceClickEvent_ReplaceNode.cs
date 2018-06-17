@@ -1,7 +1,7 @@
 ﻿using BK;
 using UnityEngine;
 
-namespace BK
+namespace BKEditor
 {
 	[Event(EventIdType.BehaviorTreeReplaceClick)]
 	public class BehaviorTreeReplaceClickEvent_ReplaceNode: AEvent<string, Vector2>

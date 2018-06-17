@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using BK;
 
-namespace BK
+namespace BKEditor
 {
     public class EditorResHelper
     {

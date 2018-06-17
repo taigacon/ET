@@ -6,8 +6,9 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using System.Collections.Generic;
 using System.Reflection;
+using BK;
 
-namespace BK
+namespace BKEditor
 {
 	public static class MongoHelper
 	{

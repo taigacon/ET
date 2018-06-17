@@ -1,6 +1,6 @@
 ﻿using BK;
 
-namespace BK
+namespace BKEditor
 {
 	[Event(EventIdType.BehaviorTreeRunTreeEvent)]
 	public class BehaviorTreeRunTreeEvent_ShowDebugInfo: AEvent<BehaviorTree>

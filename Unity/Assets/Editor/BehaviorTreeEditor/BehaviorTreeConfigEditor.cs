@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace BK
+namespace BKEditor
 {
 	[CustomEditor(typeof(BehaviorTreeConfig))]
 	public class BehaviorTreeConfigEditor: Editor

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace BK.Config.Export
+namespace BKEditor.Config.Export
 {
     // 一个数据视图, 用来代替Sheet. 毕竟sheet还是可读写的, 我们这里只读就行
     // 这里做剔除空行, 注释行, 注释列, 定义头等

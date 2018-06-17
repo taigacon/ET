@@ -5,7 +5,7 @@ using System.Text;
 using BK;
 using UnityEditor;
 
-namespace BK
+namespace BKEditor
 {
 	class OpcodeInfo
 	{

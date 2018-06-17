@@ -1,7 +1,7 @@
 ﻿using BK;
 using UnityEngine;
 
-namespace BK
+namespace BKEditor
 {
 	[Event(EventIdType.BehaviorTreeOpenEditor)]
 	public class BehaviorTreeOpenEditorEvent_SelectNode: AEvent

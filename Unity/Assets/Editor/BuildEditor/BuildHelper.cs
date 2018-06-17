@@ -1,8 +1,9 @@
 ﻿using System.IO;
 using BK;
+using LitJson;
 using UnityEditor;
 
-namespace BK
+namespace BKEditor
 {
 	public static class BuildHelper
 	{
@@ -100,7 +101,7 @@ namespace BK
 
 			using (FileStream fileStream = new FileStream($"{dir}/Version.txt", FileMode.Create))
 			{
-				byte[] bytes = JsonHelper.ToJson(versionProto).ToByteArray();
+				byte[] bytes = JsonMapper.ToJson(versionProto).ToByteArray();
 				fileStream.Write(bytes, 0, bytes.Length);
 			}
 		}

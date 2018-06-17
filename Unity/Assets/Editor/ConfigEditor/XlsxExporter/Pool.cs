@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace BK.Config.Export
+namespace BKEditor.Config.Export
 {
     public class Pool : IEnumerable<IPooledData>
     {

@@ -1,7 +1,7 @@
 ﻿using BK;
 using UnityEngine;
 
-namespace BK
+namespace BKEditor
 {
 	[Event(EventIdType.BehaviorTreePropertyDesignerNewCreateClick)]
 	public class BehaviorTreeNewCreateClickEvent_CreateNode: AEvent<string, Vector2>

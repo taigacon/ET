@@ -1,6 +1,6 @@
 ﻿using BK;
 
-namespace BK
+namespace BKEditor
 {
 	[Event(EventIdType.BehaviorTreeRightDesignerDrag)]
 	public class BehaviorTreeRightDesignerDragEvent_ModifyRightBorder: AEvent<float>

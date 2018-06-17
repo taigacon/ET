@@ -1,7 +1,7 @@
 ﻿using OfficeOpenXml;
 using System.IO;
 
-namespace BK.Config.Export
+namespace BKEditor.Config.Export
 {
     public class Exporter
     {

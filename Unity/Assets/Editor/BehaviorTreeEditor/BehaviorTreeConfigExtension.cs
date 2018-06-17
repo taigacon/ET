@@ -3,7 +3,7 @@ using System.Reflection;
 using BK;
 using UnityEngine;
 
-namespace BK
+namespace BKEditor
 {
 	public static class BehaviorTreeConfigExtension
 	{

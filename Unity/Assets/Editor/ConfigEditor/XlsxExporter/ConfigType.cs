@@ -1,4 +1,4 @@
-﻿namespace BK.Config
+﻿namespace BKEditor.Config
 {
     public enum ConfigTypes
     {

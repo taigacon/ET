@@ -1,4 +1,4 @@
-﻿namespace BK.Config.Export
+﻿namespace BKEditor.Config.Export
 {
     public class Column
     {
@@ -22,7 +22,7 @@
         public Column(Exporter exporter, int colNum)
         {
             ColumnNum = colNum;
-            SheetColumn = exporter.SheetView.GetColumn(colNum);
+	        SheetColumn = null;//exporter.SheetView.GetColumn(colNum);
             Name = SheetColumn[2];
             ColumnType = exporter.ColumnTypeParser.ParseColumnType(SheetColumn[4]);
             ConfigTypes = Utils.ParseConfigTypes(SheetColumn[5]);

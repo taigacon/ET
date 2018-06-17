@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using TypeName;
 
-namespace BK.Config.Export
+namespace BKEditor.Config.Export
 {
     static partial class Define
     {
