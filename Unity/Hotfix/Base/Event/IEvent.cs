@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ETHotfix
+namespace BKHotfix
 {
 #if ILRuntime
 	public interface IEvent

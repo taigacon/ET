@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using BK;
 
-namespace ETHotfix
+namespace BKHotfix
 {
 	[ObjectSystem]
 	public class MessageDispatherComponentAwakeSystem : AwakeSystem<MessageDispatherComponent>
@@ -41,7 +41,7 @@ namespace ETHotfix
 			BK.MessageDispatherComponent messageDispatherComponent = BK.Game.MessageDispatherComponent;
 			BK.OpcodeTypeComponent opcodeTypeComponent = BK.Game.OpcodeTypeComponent;
 
-			List<Type> types = ETModel.Game.Hotfix.GetHotfixTypes();
+			List<Type> types = BK.Game.Hotfix.GetHotfixTypes();
 
 			foreach (Type type in types)
 			{

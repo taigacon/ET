@@ -1,7 +1,7 @@
 ﻿using System;
 using BK;
 
-namespace ETHotfix
+namespace BKHotfix
 {
 	public static class Init
 	{

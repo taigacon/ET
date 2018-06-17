@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace ETHotfix
+namespace BKHotfix
 {
 	[BK.ObjectSystem]
 	public class PanelManagerAwakeSystem : AwakeSystem<PanelManager>
@@ -32,7 +32,7 @@ namespace ETHotfix
 		private const int DYNAMIC_LIMIT = 5;
 		private GameObject Root;
 		private readonly Dictionary<PanelId, Panel> panelCache = new Dictionary<PanelId, Panel>();
-		private readonly Dictionary<PanelId, PanelConfigAttribute> panelConfigAttributes = new Dictionary<PanelId, PanelConfigAttribute>();
+		private readonly Dictionary<PanelId, PanelConfig> panelConfigs = new Dictionary<PanelId, PanelConfig>();
 		private readonly Dictionary<PanelId, Type> panelTypes = new Dictionary<PanelId, Type>();
 		private readonly List<PanelId> isLoading = new List<PanelId>();
 		private readonly List<PanelId> dynamicPanelIds = new List<PanelId>(); //LRU
@@ -60,23 +60,24 @@ namespace ETHotfix
 
 		public void Load()
 		{
-			Type[] types = BK.Game.Hotfix.GetHotfixTypes();
+			List<Type> types = BK.Game.Hotfix.GetHotfixTypes();
 
 			foreach (Type type in types)
 			{
-				object[] attrs = type.GetCustomAttributes(typeof (PanelConfigAttribute), false);
+				object[] attrs = type.GetCustomAttributes(typeof(PanelConfigAttribute), false);
 				if (attrs.Length == 0)
 				{
 					continue;
 				}
 
 				PanelConfigAttribute attribute = attrs[0] as PanelConfigAttribute;
-				if (this.panelConfigAttributes.ContainsKey(attribute.PanelId))
+				var panelId = attribute.PanelConfig.PanelId;
+				if (this.panelConfigs.ContainsKey(panelId))
 				{
-					throw new Exception($"已经存在同个PanelId: {attribute.PanelId}");
+					throw new Exception($"已经存在同个PanelId: {panelId}");
 				}
-				this.panelConfigAttributes.Add(attribute.PanelId, attribute);
-				this.panelTypes.Add(attribute.PanelId, type);
+				this.panelConfigs.Add(panelId, attribute.PanelConfig);
+				this.panelTypes.Add(panelId, type);
 			}
 		}
 
@@ -103,10 +104,11 @@ namespace ETHotfix
 				}
 				this.isLoading.Add(panelId);
 				Type type = this.panelTypes[panelId];
-				PanelConfigAttribute config = this.panelConfigAttributes[panelId];
+				PanelConfig config = this.panelConfigs[panelId];
 				await BK.Game.ResourcesComponent.LoadBundleAsync($"{panelId}");
 				GameObject go = GameObject.Instantiate((GameObject)Game.ResourcesComponent.GetAsset($"{panelId}", $"{panelId}.prefab"));
-				panel = (Panel)ComponentFactory.Create(type, go, config);
+				panel = (Panel)ObjectFactory.CreateEntity(type);
+				panel.Awake(go, config);
 				this.isLoading.Remove(panelId);
 				this.panelCache.Add(panelId, panel);
 				if(showWhenDone)

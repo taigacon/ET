@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ETHotfix
+namespace BKHotfix
 {
 	public interface IAwakeSystem
 	{
@@ -11,23 +11,24 @@ namespace ETHotfix
 	{
 		void Run(object o);
 	}
-	
+
 	public interface IAwake<A>
 	{
 		void Run(object o, A a);
 	}
-	
+
 	public interface IAwake<A, B>
 	{
 		void Run(object o, A a, B b);
 	}
-	
+
 	public interface IAwake<A, B, C>
 	{
 		void Run(object o, A a, B b, C c);
 	}
 
 	public abstract class AwakeSystem<T> : IAwakeSystem, IAwake
+		where T : Component
 	{
 		public Type Type()
 		{
@@ -43,6 +44,7 @@ namespace ETHotfix
 	}
 
 	public abstract class AwakeSystem<T, A> : IAwakeSystem, IAwake<A>
+		where T : Component
 	{
 		public Type Type()
 		{
@@ -58,6 +60,7 @@ namespace ETHotfix
 	}
 
 	public abstract class AwakeSystem<T, A, B> : IAwakeSystem, IAwake<A, B>
+		where T : Component
 	{
 		public Type Type()
 		{
@@ -73,6 +76,7 @@ namespace ETHotfix
 	}
 
 	public abstract class AwakeSystem<T, A, B, C> : IAwakeSystem, IAwake<A, B, C>
+		where T : Component
 	{
 		public Type Type()
 		{

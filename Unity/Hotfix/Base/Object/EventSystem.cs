@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using BK;
 
-namespace ETHotfix
+namespace BKHotfix
 {
 	public sealed class EventSystem
 	{
-		private readonly Dictionary<long, Component> allComponents = new Dictionary<long, Component>();
+		private readonly Dictionary<ulong, Component> allComponents = new Dictionary<ulong, Component>();
 
 		private readonly Dictionary<string, List<IEvent>> allEvents = new Dictionary<string, List<IEvent>>();
 
@@ -24,20 +24,20 @@ namespace ETHotfix
 
 		private readonly UnOrderMultiMap<Type, IChangeSystem> changeSystems = new UnOrderMultiMap<Type, IChangeSystem>();
 
-		private Queue<long> updates = new Queue<long>();
-		private Queue<long> updates2 = new Queue<long>();
+		private Queue<ulong> updates = new Queue<ulong>();
+		private Queue<ulong> updates2 = new Queue<ulong>();
 
-		private readonly Queue<long> starts = new Queue<long>();
+		private readonly Queue<ulong> starts = new Queue<ulong>();
 
-		private Queue<long> loaders = new Queue<long>();
-		private Queue<long> loaders2 = new Queue<long>();
+		private Queue<ulong> loaders = new Queue<ulong>();
+		private Queue<ulong> loaders2 = new Queue<ulong>();
 
-		private Queue<long> lateUpdates = new Queue<long>();
-		private Queue<long> lateUpdates2 = new Queue<long>();
+		private Queue<ulong> lateUpdates = new Queue<ulong>();
+		private Queue<ulong> lateUpdates2 = new Queue<ulong>();
 
 		public EventSystem()
 		{
-			List<Type> types = ETModel.Game.Hotfix.GetHotfixTypes();
+			List<Type> types = BK.Game.Hotfix.GetHotfixTypes();
 			foreach (Type type in types)
 			{
 				object[] attrs = type.GetCustomAttributes(typeof(ObjectSystemAttribute), false);
@@ -191,7 +191,7 @@ namespace ETHotfix
 			}
 		}
 
-		public void Remove(long instanceId)
+		public void Remove(ulong instanceId)
 		{
 			this.allComponents.Remove(instanceId);
 		}
@@ -354,7 +354,7 @@ namespace ETHotfix
 		{
 			while (this.loaders.Count > 0)
 			{
-				long instanceId = this.loaders.Dequeue();
+				ulong instanceId = this.loaders.Dequeue();
 				Component component;
 				if (!this.allComponents.TryGetValue(instanceId, out component))
 				{
@@ -393,7 +393,7 @@ namespace ETHotfix
 		{
 			while (this.starts.Count > 0)
 			{
-				long instanceId = this.starts.Dequeue();
+				ulong instanceId = this.starts.Dequeue();
 				Component component;
 				if (!this.allComponents.TryGetValue(instanceId, out component))
 				{
@@ -452,7 +452,7 @@ namespace ETHotfix
 			
 			while (this.updates.Count > 0)
 			{
-				long instanceId = this.updates.Dequeue();
+				ulong instanceId = this.updates.Dequeue();
 				Component component;
 				if (!this.allComponents.TryGetValue(instanceId, out component))
 				{
@@ -491,7 +491,7 @@ namespace ETHotfix
 		{
 			while (this.lateUpdates.Count > 0)
 			{
-				long instanceId = this.lateUpdates.Dequeue();
+				ulong instanceId = this.lateUpdates.Dequeue();
 				Component component;
 				if (!this.allComponents.TryGetValue(instanceId, out component))
 				{

@@ -1,6 +1,6 @@
 ﻿using BK;
 
-namespace ETHotfix
+namespace BKHotfix
 {
 	// 分发数值监听
 	[Event(BK.EventIdType.TestHotfixSubscribMonoEvent)]

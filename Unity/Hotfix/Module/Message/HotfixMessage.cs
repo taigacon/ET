@@ -2,7 +2,7 @@ using ProtoBuf;
 using BK;
 using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
-namespace ETHotfix
+namespace BKHotfix
 {
 	[Message(HotfixOpcode.C2R_Login)]
 	[ProtoContract]
@@ -140,7 +140,7 @@ namespace ETHotfix
 		[ProtoMember(92, IsRequired = true)]
 		public string Message { get; set; }
 
-		[ProtoMember(1, TypeName = "ETHotfix.PlayerInfo")]
+		[ProtoMember(1, TypeName = "BKHotfix.PlayerInfo")]
 		public List<PlayerInfo> PlayerInfos = new List<PlayerInfo>();
 
 	}

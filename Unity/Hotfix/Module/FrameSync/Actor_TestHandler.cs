@@ -1,6 +1,6 @@
 ﻿using BK;
 
-namespace ETHotfix
+namespace BKHotfix
 {
 	[MessageHandler]
 	public class Actor_TestHandler : AMHandler<Actor_Test>

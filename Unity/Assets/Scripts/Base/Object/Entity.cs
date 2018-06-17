@@ -5,7 +5,6 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace BK
 {
-	[BsonIgnoreExtraElements]
 	public class Entity : Object
 	{
 		private readonly Dictionary<Type, Component> componentDict = new Dictionary<Type, Component>();

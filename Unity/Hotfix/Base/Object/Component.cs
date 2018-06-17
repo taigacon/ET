@@ -1,99 +1,61 @@
 ﻿using BK;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace ETHotfix
+namespace BKHotfix
 {
-	[BsonIgnoreExtraElements]
-	public abstract class Component : Object, IDisposable, IComponentSerialize
+	public abstract class Component : Object
 	{
-		[BsonIgnore]
-		public long InstanceId { get; protected set; }
-
-		[BsonIgnore]
-		private bool isFromPool;
-
-		[BsonIgnore]
-		public bool IsFromPool
+		protected Component()
 		{
-			get
-			{
-				return this.isFromPool;
-			}
-			set
-			{
-				this.isFromPool = value;
-
-				if (!this.isFromPool)
-				{
-					return;
-				}
-
-				if (this.InstanceId == 0)
-				{
-					this.InstanceId = IdGenerater.GenerateId();
-				}
-
-				Game.EventSystem.Add(this);
-			}
 		}
 
-		[BsonIgnore]
-		public bool IsDisposed
-		{
-			get
-			{
-				return this.InstanceId == 0;
-			}
-		}
+		public Entity Parent { get; internal set; }
 
-		[BsonIgnore]
-		public Component Parent { get; set; }
-
-		public T GetParent<T>() where T : Component
+		public T GetParent<T>() where T : Entity
 		{
 			return this.Parent as T;
 		}
 
-		[BsonIgnore]
-		public Entity Entity
+		public Entity Entity => this.Parent;
+
+		public sealed override bool IsDisposed
 		{
-			get
+			get { return base.IsDisposed; }
+			internal set
 			{
-				return this.Parent as Entity;
+				if (value != base.IsDisposed)
+				{
+					base.IsDisposed = value;
+					if (value)
+					{
+						Game.EventSystem.Remove(this.InstanceId);
+					}
+					else
+					{
+						Game.EventSystem.Add(this);
+					}
+				}
 			}
 		}
 
-		protected Component()
-		{
-			this.InstanceId = IdGenerater.GenerateId();
-		}
-		
-		public virtual void Dispose()
+		public override void Dispose()
 		{
 			if (this.IsDisposed)
 			{
 				return;
 			}
 
-			Game.EventSystem.Remove(this.InstanceId);
-
-			this.InstanceId = 0;
-
-			if (this.IsFromPool)
+			// 由parent触发dispose
+			if (Parent != null)
 			{
-				Game.ObjectPool.Recycle(this);
+				var parent = Parent;
+				Parent = null;
+				parent.RemoveComponent(this.GetType());
+				return;
 			}
-
 			// 触发Destroy事件
 			Game.EventSystem.Destroy(this);
-		}
-
-		public virtual void BeginSerialize()
-		{
-		}
-
-		public virtual void EndDeSerialize()
-		{
+			base.Dispose();
 		}
 	}
 }

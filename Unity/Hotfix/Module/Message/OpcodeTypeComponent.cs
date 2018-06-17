@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using BK;
 using ProtoBuf;
 
-namespace ETHotfix
+namespace BKHotfix
 {
 	[ObjectSystem]
 	public class OpcodeTypeComponentAwakeSystem : AwakeSystem<OpcodeTypeComponent>
@@ -20,7 +20,7 @@ namespace ETHotfix
 
 		public void Awake()
 		{
-			List<Type> types = ETModel.Game.Hotfix.GetHotfixTypes();
+			List<Type> types = BK.Game.Hotfix.GetHotfixTypes();
 			foreach (Type type in types)
 			{
 				object[] attrs = type.GetCustomAttributes(typeof(MessageAttribute), false);

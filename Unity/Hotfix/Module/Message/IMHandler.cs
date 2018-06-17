@@ -1,7 +1,7 @@
 ﻿using System;
 using BK;
 
-namespace ETHotfix
+namespace BKHotfix
 {
 #if ILRuntime
 	public interface IMHandler

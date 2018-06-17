@@ -1,20 +1,14 @@
 ﻿using System;
 
-namespace ETHotfix
+namespace BKHotfix
 {
 	public class PanelConfigAttribute : Attribute
 	{
-		public PanelId PanelId { get; }
-		public PanelType PanelType { get; }
-		public Type BindViewType { get; }
-		public PanelLifespan PanelLifespan { get; }
+		public PanelConfig PanelConfig { get; }
 
 		PanelConfigAttribute(PanelId panelId, PanelType panelType, Type bindViewType, PanelLifespan panelLifespan = PanelLifespan.Dynamic)
 		{
-			this.PanelId = panelId;
-			this.PanelType = panelType;
-			this.BindViewType = bindViewType;
-			this.PanelLifespan = panelLifespan;
+			PanelConfig = new PanelConfig(panelId, panelType, bindViewType, panelLifespan);
 		}
 	}
 }

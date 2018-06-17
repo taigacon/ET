@@ -1,4 +1,4 @@
-﻿namespace ETHotfix
+﻿namespace BKHotfix
 {
 	public static class EventIdType
 	{

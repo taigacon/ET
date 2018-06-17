@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ETHotfix
+namespace BKHotfix
 {
 	public interface ILateUpdateSystem
 	{

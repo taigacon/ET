@@ -2,16 +2,8 @@
 using BK.UIBind;
 using UnityEngine;
 
-namespace ETHotfix
+namespace BKHotfix
 {
-	[BK.ObjectSystem]
-	public class PanelAwakeSystem : AwakeSystem<Panel, GameObject, PanelConfigAttribute>
-	{
-		public override void Awake(Panel self, GameObject gameObject, PanelConfigAttribute config)
-		{
-			self.Awake(gameObject, config);
-		}
-	}
 
 	public abstract class Panel : Entity
 	{
@@ -25,7 +17,7 @@ namespace ETHotfix
 
 		public bool IsShow { get; private set; } = false;
 
-		public void Awake(GameObject gameObject, PanelConfigAttribute config)
+		public void Awake(GameObject gameObject, PanelConfig config)
 		{
 			this.GameObject = gameObject;
 			this.PanelId = config.PanelId;
@@ -46,7 +38,6 @@ namespace ETHotfix
 			base.Dispose();
 			
 			UnityEngine.Object.Destroy(GameObject);
-			this.Parent = null;
 		}
 
 		public virtual void OnShow(object param)

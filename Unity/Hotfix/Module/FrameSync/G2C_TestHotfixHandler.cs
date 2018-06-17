@@ -1,6 +1,6 @@
 ﻿using BK;
 
-namespace ETHotfix
+namespace BKHotfix
 {
 	[MessageHandler]
 	public class G2C_TestHotfixMessageHandler : AMHandler<G2C_TestHotfixMessage>

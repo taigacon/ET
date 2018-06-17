@@ -5,20 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using BK;
 
-namespace ETHotfix
+namespace BKHotfix
 {
-	[ObjectSystem]
-	public class SessionAwakeSystem : AwakeSystem<Session, BK.Session>
-	{
-		public override void Awake(Session self, BK.Session session)
-		{
-			self.session = session;
-			SessionCallbackComponent sessionComponent = self.session.AddComponent<SessionCallbackComponent>();
-			sessionComponent.MessageCallback = (s, p) => { self.Run(s, p); };
-			sessionComponent.DisposeCallback = s => { self.Dispose(); };
-		}
-	}
-
 	/// <summary>
 	/// 用来收发热更层的消息
 	/// </summary>
@@ -48,7 +36,7 @@ namespace ETHotfix
 			this.session.Dispose();
 		}
 
-		public void Run(ETModel.Session s, Packet packet)
+		public void Run(BK.Session s, Packet packet)
 		{
 			ushort opcode = packet.Opcode;
 			byte flag = packet.Flag;

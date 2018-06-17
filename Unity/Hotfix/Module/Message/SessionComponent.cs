@@ -1,6 +1,6 @@
 ﻿using BK;
 
-namespace ETHotfix
+namespace BKHotfix
 {
 	[ObjectSystem]
 	public class SessionComponentAwakeSystem : AwakeSystem<SessionComponent>

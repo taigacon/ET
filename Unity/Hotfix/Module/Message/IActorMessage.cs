@@ -1,7 +1,7 @@
 ﻿using ProtoBuf;
 
 // 不要在这个文件加[ProtoInclude]跟[BsonKnowType]标签,加到InnerMessage.cs或者OuterMessage.cs里面去
-namespace ETHotfix
+namespace BKHotfix
 {
 	public interface IActorMessage: IRequest
 	{

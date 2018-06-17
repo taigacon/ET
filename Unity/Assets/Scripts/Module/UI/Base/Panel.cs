@@ -16,7 +16,7 @@ namespace BK
 
 		public bool IsShow { get; private set; } = false;
 
-		public void Awake(GameObject gameObject, PanelConfigAttribute config)
+		public void Awake(GameObject gameObject, PanelConfig config)
 		{
 			this.GameObject = gameObject;
 			this.PanelId = config.PanelId;
