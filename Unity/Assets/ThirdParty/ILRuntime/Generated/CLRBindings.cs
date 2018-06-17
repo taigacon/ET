@@ -48,6 +48,7 @@ namespace ILRuntime.Runtime.Generated
             System_Collections_Generic_Queue_1_BK_IDisposableClassInheritanceAdaptor_Binding_IDisposableAdaptor_Binding.Register(app);
             System_Collections_Generic_Dictionary_2_Int32_Action_1_ILTypeInstance_Binding.Register(app);
             System_Linq_Enumerable_Binding.Register(app);
+            System_Action_1_ILTypeInstance_Binding.Register(app);
             BK_Object_Binding.Register(app);
             BK_Packet_Binding.Register(app);
             BK_ProtobufHelper_Binding.Register(app);
