@@ -38,7 +38,7 @@ namespace BK
 		{
 			this.handlers.Clear();
 
-			Type[] types = DllHelper.GetMonoTypes();
+			List<Type> types = Game.EventSystem.GetTypes();
 
 			foreach (Type type in types)
 			{

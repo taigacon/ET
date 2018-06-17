@@ -2,7 +2,7 @@
 using BK;
 using UnityEngine;
 
-namespace ETEditor
+namespace BK
 {
 	public enum DebugState
 	{

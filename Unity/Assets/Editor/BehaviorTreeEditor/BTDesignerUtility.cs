@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace ETEditor
+namespace BK
 {
 	public static class BTDesignerUtility
 	{

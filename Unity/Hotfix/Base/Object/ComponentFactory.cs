@@ -8,6 +8,11 @@ namespace ETHotfix
 		{
 			Component component = (Component)Game.ObjectPool.Fetch(type);
 			component.Parent = parent;
+			ComponentWithId componentWithId = component as ComponentWithId;
+			if (componentWithId != null)
+			{
+				componentWithId.Id = component.InstanceId;
+			}
 			Game.EventSystem.Awake(component);
 			return component;
 		}
@@ -16,6 +21,11 @@ namespace ETHotfix
 		{
 			T component = Game.ObjectPool.Fetch<T>();
 			component.Parent = parent;
+			ComponentWithId componentWithId = component as ComponentWithId;
+			if (componentWithId != null)
+			{
+				componentWithId.Id = component.InstanceId;
+			}
 			Game.EventSystem.Awake(component);
 			return component;
 		}
@@ -24,6 +34,11 @@ namespace ETHotfix
 		{
 			T component = Game.ObjectPool.Fetch<T>();
 			component.Parent = parent;
+			ComponentWithId componentWithId = component as ComponentWithId;
+			if (componentWithId != null)
+			{
+				componentWithId.Id = component.InstanceId;
+			}
 			Game.EventSystem.Awake(component, a);
 			return component;
 		}
@@ -40,6 +55,11 @@ namespace ETHotfix
 		{
 			T component = Game.ObjectPool.Fetch<T>();
 			component.Parent = parent;
+			ComponentWithId componentWithId = component as ComponentWithId;
+			if (componentWithId != null)
+			{
+				componentWithId.Id = component.InstanceId;
+			}
 			Game.EventSystem.Awake(component, a, b);
 			return component;
 		}
@@ -56,6 +76,11 @@ namespace ETHotfix
 		{
 			T component = Game.ObjectPool.Fetch<T>();
 			component.Parent = parent;
+			ComponentWithId componentWithId = component as ComponentWithId;
+			if (componentWithId != null)
+			{
+				componentWithId.Id = component.InstanceId;
+			}
 			Game.EventSystem.Awake(component, a, b, c);
 			return component;
 		}
@@ -71,6 +96,11 @@ namespace ETHotfix
 		public static T Create<T>() where T : Component
 		{
 			T component = Game.ObjectPool.Fetch<T>();
+			ComponentWithId componentWithId = component as ComponentWithId;
+			if (componentWithId != null)
+			{
+				componentWithId.Id = component.InstanceId;
+			}
 			Game.EventSystem.Awake(component);
 			return component;
 		}
@@ -85,6 +115,11 @@ namespace ETHotfix
 		public static T Create<T, A>(A a) where T : Component
 		{
 			T component = Game.ObjectPool.Fetch<T>();
+			ComponentWithId componentWithId = component as ComponentWithId;
+			if (componentWithId != null)
+			{
+				componentWithId.Id = component.InstanceId;
+			}
 			Game.EventSystem.Awake(component, a);
 			return component;
 		}
@@ -99,6 +134,11 @@ namespace ETHotfix
 		public static T Create<T, A, B>(A a, B b) where T : Component
 		{
 			T component = Game.ObjectPool.Fetch<T>();
+			ComponentWithId componentWithId = component as ComponentWithId;
+			if (componentWithId != null)
+			{
+				componentWithId.Id = component.InstanceId;
+			}
 			Game.EventSystem.Awake(component, a, b);
 			return component;
 		}
@@ -113,6 +153,11 @@ namespace ETHotfix
 		public static T Create<T, A, B, C>(A a, B b, C c) where T : Component
 		{
 			T component = Game.ObjectPool.Fetch<T>();
+			ComponentWithId componentWithId = component as ComponentWithId;
+			if (componentWithId != null)
+			{
+				componentWithId.Id = component.InstanceId;
+			}
 			Game.EventSystem.Awake(component, a, b, c);
 			return component;
 		}

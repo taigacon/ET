@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace ETEditor
+namespace BK
 {
 	public class PropertyDesigner: Editor
 	{

@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace ETEditor
+namespace BK
 {
 	public enum SubWinType
 	{

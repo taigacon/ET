@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using BK;
 
-namespace ETEditor
+namespace BK
 {
 	public class BTDebugComponent: Component
 	{

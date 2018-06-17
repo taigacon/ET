@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ETEditor
+namespace BK
 {
 	public static class BehaviorTreeTipsHelper
 	{

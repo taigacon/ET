@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace BK
 {
 	public abstract class NetworkComponent : Component
 	{
-		private AService Service;
-
 		public AppType AppType;
+		
+		private AService Service;
 
 		private readonly Dictionary<ulong, Session> sessions = new Dictionary<ulong, Session>();
 
@@ -20,16 +19,27 @@ namespace BK
 
 		public void Awake(NetworkProtocol protocol)
 		{
-			switch (protocol)
+			try
 			{
-				case NetworkProtocol.TCP:
-					this.Service = new TService();
-					break;
-				case NetworkProtocol.KCP:
-					this.Service = new KService();
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
+				switch (protocol)
+				{
+					case NetworkProtocol.KCP:
+						this.Service = new KService();
+						break;
+					case NetworkProtocol.TCP:
+						this.Service = new TService();
+						break;
+					default:
+						throw new ArgumentOutOfRangeException();
+				}
+
+				this.Service.AcceptCallback += this.OnAccept;
+				
+				this.Start();
+			}
+			catch (Exception e)
+			{
+				throw new Exception($"{e}");
 			}
 		}
 
@@ -39,17 +49,19 @@ namespace BK
 			{
 				switch (protocol)
 				{
-					case NetworkProtocol.TCP:
-						this.Service = new TService(ipEndPoint);
-						break;
 					case NetworkProtocol.KCP:
 						this.Service = new KService(ipEndPoint);
+						break;
+					case NetworkProtocol.TCP:
+						this.Service = new TService(ipEndPoint);
 						break;
 					default:
 						throw new ArgumentOutOfRangeException();
 				}
-
-				this.StartAccept();
+				
+				this.Service.AcceptCallback += this.OnAccept;
+				
+				this.Start();
 			}
 			catch (Exception e)
 			{
@@ -57,41 +69,21 @@ namespace BK
 			}
 		}
 
-		private async void StartAccept()
+		public void Start()
 		{
-			while (true)
-			{
-				if (this.IsDisposed)
-				{
-					return;
-				}
-
-				try
-				{
-					await this.Accept();
-				}
-				catch (Exception e)
-				{
-					Log.Error(e);
-				}
-			}
+			this.Service.Start();
 		}
 
-		public virtual async Task<Session> Accept()
+		public int Count
 		{
-			AChannel channel = await this.Service.AcceptChannel();
+			get { return this.sessions.Count; }
+		}
+
+		public void OnAccept(AChannel channel)
+		{
 			Session session = ObjectFactory.CreateEntity<Session>();
 			session.Awake(this, channel);
-			channel.ErrorCallback += (c, e) =>
-			{
-				session.Error = e;
-				this.Remove(session.InstanceId);
-			};
-
-			channel.ReadCallback += (packet) => { session.OnRead(packet); };
-			
 			this.sessions.Add(session.InstanceId, session);
-			return session;
 		}
 
 		public virtual void Remove(ulong id)
@@ -115,29 +107,13 @@ namespace BK
 		/// <summary>
 		/// 创建一个新Session
 		/// </summary>
-		public virtual Session Create(IPEndPoint ipEndPoint)
+		public Session Create(IPEndPoint ipEndPoint)
 		{
-			try
-			{
-				AChannel channel = this.Service.ConnectChannel(ipEndPoint);
-				Session session = ObjectFactory.CreateEntity<Session>();
-				session.Awake(this, channel);
-				channel.ErrorCallback += (c, e) =>
-				{
-					session.Error = e;
-					this.Remove(session.InstanceId);
-				};
-				
-				channel.ReadCallback += (packet) => { session.OnRead(packet); };
-				
-				this.sessions.Add(session.InstanceId, session);
-				return session;
-			}
-			catch (Exception e)
-			{
-				Log.Error(e);
-				return null;
-			}
+			AChannel channel = this.Service.ConnectChannel(ipEndPoint);
+			Session session = ObjectFactory.CreateEntity<Session>();
+			session.Awake(this, channel);
+			this.sessions.Add(session.InstanceId, session);
+			return session;
 		}
 
 		public void Update()

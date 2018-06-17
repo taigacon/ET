@@ -16,7 +16,6 @@ namespace BK.Config.Export
             OutputPath = outPath;
 
             excelPackage = new ExcelPackage(new FileInfo(filePath));
-            SheetView = new XLSSheetView()
         }
     }
 }

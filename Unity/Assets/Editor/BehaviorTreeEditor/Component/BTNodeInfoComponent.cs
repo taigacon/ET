@@ -2,7 +2,7 @@
 using System.Linq;
 using BK;
 
-namespace ETEditor
+namespace BK
 {
 	[ObjectSystem]
 	public class BtNodeInfoComponentSystem : AwakeSystem<BTNodeInfoComponent>

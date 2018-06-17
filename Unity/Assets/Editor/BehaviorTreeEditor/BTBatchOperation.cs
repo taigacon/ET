@@ -4,7 +4,7 @@ using System.Reflection;
 using BK;
 using UnityEditor;
 
-namespace ETEditor
+namespace BK
 {
 	public class BTBatchOperation
 	{

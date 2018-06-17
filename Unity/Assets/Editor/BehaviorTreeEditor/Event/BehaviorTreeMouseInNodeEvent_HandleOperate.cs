@@ -1,6 +1,6 @@
 ﻿using BK;
 
-namespace ETEditor
+namespace BK
 {
 	[Event(EventIdType.BehaviorTreeMouseInNode)]
 	public class BehaviorTreeMouseInNodeEvent_HandleOperate: AEvent<BehaviorNodeData, NodeDesigner>

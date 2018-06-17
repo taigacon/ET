@@ -41,7 +41,7 @@ namespace ETHotfix
 			BK.MessageDispatherComponent messageDispatherComponent = BK.Game.MessageDispatherComponent;
 			BK.OpcodeTypeComponent opcodeTypeComponent = BK.Game.OpcodeTypeComponent;
 
-			Type[] types = BK.Game.Hotfix.GetHotfixTypes();
+			List<Type> types = ETModel.Game.Hotfix.GetHotfixTypes();
 
 			foreach (Type type in types)
 			{

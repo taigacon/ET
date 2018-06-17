@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace ETEditor
+namespace BK
 {
 	public class FoldoutNode //折叠的节点
 	{

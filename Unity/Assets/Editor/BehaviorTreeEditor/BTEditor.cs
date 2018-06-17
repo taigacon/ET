@@ -7,7 +7,7 @@ using UnityEngine;
 using Component = UnityEngine.Component;
 using Object = UnityEngine.Object;
 
-namespace ETEditor
+namespace BK
 {
 	public class BTEditor: Entity
 	{

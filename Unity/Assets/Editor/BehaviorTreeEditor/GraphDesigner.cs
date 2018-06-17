@@ -4,7 +4,7 @@ using BK;
 using UnityEditor;
 using UnityEngine;
 
-namespace ETEditor
+namespace BK
 {
 	public enum State
 	{

@@ -1,6 +1,6 @@
 ﻿using BK;
 
-namespace ETEditor
+namespace BK
 {
 	[Event(EventIdType.BehaviorTreeCreateNode)]
 	public class BehaviorTreeCreateNodeEvent_SelectNode: AEvent<NodeDesigner>

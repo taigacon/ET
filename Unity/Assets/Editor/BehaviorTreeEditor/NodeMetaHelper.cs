@@ -5,7 +5,7 @@ using BK;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace ETEditor
+namespace BK
 {
 	public enum NodeChildLimitType
 	{
@@ -29,7 +29,7 @@ namespace ETEditor
 		public static Dictionary<string, NodeMeta> ExportToDict()
 		{
 			Dictionary<string, NodeMeta> name2NodeProtoDict = new Dictionary<string, NodeMeta>();
-			Type[] types = DllHelper.GetMonoTypes();
+			List<Type> types = Game.EventSystem.GetTypes();
 			foreach (Type type in types)
 			{
 				NodeMeta proto = GetNodeTypeProtoFromType(type);

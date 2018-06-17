@@ -123,7 +123,6 @@
      <Compile Include="Assets\Scripts\Entity\Hotfix.cs" />
      <Compile Include="Assets\Scripts\Helper\ActionHelper.cs" />
      <Compile Include="Assets\Scripts\Helper\BundleHelper.cs" />
-     <Compile Include="Assets\Scripts\Helper\DllHelper.cs" />
      <Compile Include="Assets\Scripts\Helper\GameObjectHelper.cs" />
      <Compile Include="Assets\Scripts\Helper\ILHelper.cs" />
      <Compile Include="Assets\Scripts\Helper\PathHelper.cs" />
@@ -267,6 +266,8 @@
      <Compile Include="Assets\ThirdParty\AsyncAwaitUtil\WaitForBackgroundThread.cs" />
      <Compile Include="Assets\ThirdParty\AsyncAwaitUtil\WaitForUpdate.cs" />
      <Compile Include="Assets\ThirdParty\ILRuntime\Generated\CLRBindings.cs" />
+     <Compile Include="Assets\ThirdParty\ILRuntime\Generated\System_Collections_Generic_List_1_Type_Binding.cs" />
+     <Compile Include="Assets\ThirdParty\ILRuntime\Generated\System_Collections_Generic_List_1_Type_Binding_Enumerator_Bind_t.cs" />
      <Compile Include="Assets\ThirdParty\ILRuntime\ILRuntime\CLR\Method\CLRMethod.cs" />
      <Compile Include="Assets\ThirdParty\ILRuntime\ILRuntime\CLR\Method\ExceptionHandler.cs" />
      <Compile Include="Assets\ThirdParty\ILRuntime\ILRuntime\CLR\Method\ILMethod.cs" />

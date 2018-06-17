@@ -2,7 +2,7 @@
 using BK;
 using UnityEditor;
 
-namespace ETEditor
+namespace BK
 {
 	public static class BuildHelper
 	{
