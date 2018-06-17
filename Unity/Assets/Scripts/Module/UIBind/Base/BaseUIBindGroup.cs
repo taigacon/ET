@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace ETModel.UIBind
+namespace BK.UIBind
 {
     public abstract class BaseUIBindGroup : BaseUIBindContainer
 	{

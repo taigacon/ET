@@ -1,16 +1,16 @@
 ﻿using System;
-using ETModel;
+using BK;
 
 namespace ETHotfix
 {
 #if ILRuntime
 	public interface IMHandler
 	{
-		void Handle(ETModel.Session session, object message);
+		void Handle(BK.Session session, object message);
 		Type GetMessageType();
 	}
 #else
-	public interface IMHandler : ETModel.IMHandler
+	public interface IMHandler : BK.IMHandler
 	{
 	}
 #endif

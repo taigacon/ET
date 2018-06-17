@@ -2,6 +2,6 @@
 {
 	public sealed class GameEntity: Entity
 	{
-		public ETModel.GameEntity ModelScene => ETModel.Game.Entity;
+		public BK.GameEntity ModelScene => BK.Game.Entity;
 	}
 }

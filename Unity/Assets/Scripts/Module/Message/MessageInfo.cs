@@ -1,4 +1,4 @@
-﻿namespace ETModel
+﻿namespace BK
 {
 	public struct MessageInfo
 	{

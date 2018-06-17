@@ -1,4 +1,4 @@
-﻿namespace ETModel.UIBind
+﻿namespace BK.UIBind
 {
 	public interface IDataCell
 	{

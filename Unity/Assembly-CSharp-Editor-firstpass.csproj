@@ -52,6 +52,39 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Plugins\Editor\JetBrains\Unity3DRider.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\Container\ArrayRankList.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\Container\BaseNameList.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\Container\GenericList.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\Container\INameList.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\Container\NameList.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\Container\Namespace.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\Container\ParameterList.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\Filter\IFilterNamespaceElement.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\Filter\NameIdentity.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\Filter\NamespaceFilter.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\MethodName\IMethodName.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\MethodName\Impl\MethodName.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\MethodName\Impl\ParameterName.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\MethodName\IParameterName.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\MethodName\MethodNameExtend.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\TypeName\GenericVisitor.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\TypeName\Impl\ArrayTypeName.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\TypeName\Impl\ComponentTypeNameBase.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\TypeName\Impl\DirectTypeName.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\TypeName\Impl\GenericParameterTypeName.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\TypeName\Impl\GenericTypeName.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\TypeName\Impl\NullableTypeName.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\TypeName\Impl\PointerTypeName.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\TypeName\Impl\RefTypeName.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\TypeName\Impl\SimpleTypeName.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\TypeName\Impl\TypeName.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\TypeName\Impl\TypeNameView.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\TypeName\ITypeName.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\TypeName\ITypeNameView.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\TypeName\SignConstant.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\TypeName\TypeNameExtend.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\TypeName\TypeNameFactory.cs" />
+     <Compile Include="Assets\Plugins\Editor\TypeName\TypeName\TypeNameFlag.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -150,6 +183,9 @@
  </Reference>
  <Reference Include="UnityEngine.StandardEvents">
  <HintPath>C:/Users/Taigacon/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
+ </Reference>
+ <Reference Include="EPPlus">
+ <HintPath>D:/ET/Unity/Assets/Plugins/Editor/EPPlus.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

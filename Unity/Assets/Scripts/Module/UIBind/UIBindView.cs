@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
-using ETModel.Reflection;
+using BK.Reflection;
 
-namespace ETModel.UIBind
+namespace BK.UIBind
 {
 	public interface IUIBindView
 	{

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ETModel
+namespace BK
 {
 	/// <summary>
 	/// RPC异常,带ErrorCode

@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace ETModel.UIBind
+namespace BK.UIBind
 {
     public abstract class BaseUIBindData : BaseUINode
     {

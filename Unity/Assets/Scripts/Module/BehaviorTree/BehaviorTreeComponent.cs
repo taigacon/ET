@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-namespace ETModel
+namespace BK
 {
 	[ObjectSystem]
 	public class BehaviorTreeComponentAwakeSystem : AwakeSystem<BehaviorTreeComponent>

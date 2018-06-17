@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using ETModel.UIBind;
+using BK.UIBind;
 using UnityEngine;
 
 namespace ETHotfix
 {
-	[ETModel.ObjectSystem]
+	[BK.ObjectSystem]
 	public class PanelAwakeSystem : AwakeSystem<Panel, GameObject, PanelConfigAttribute>
 	{
 		public override void Awake(Panel self, GameObject gameObject, PanelConfigAttribute config)

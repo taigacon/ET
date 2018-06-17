@@ -1,4 +1,4 @@
-﻿using ETModel;
+﻿using BK;
 
 namespace ETHotfix
 {
@@ -18,8 +18,8 @@ namespace ETHotfix
 			PanelManager = Entity.AddComponent<PanelManager>();
 			OpcodeTypeComponent = Entity.AddComponent<OpcodeTypeComponent>();
 			MessageDispatherComponent = Entity.AddComponent<MessageDispatherComponent>();
-			Hotfix = ETModel.Game.Hotfix;
-			ResourcesComponent = ETModel.Game.ResourcesComponent;
+			Hotfix = BK.Game.Hotfix;
+			ResourcesComponent = BK.Game.ResourcesComponent;
 		}
 		public static PanelManager PanelManager { get; private set; }
 		public static OpcodeTypeComponent OpcodeTypeComponent { get; private set; }

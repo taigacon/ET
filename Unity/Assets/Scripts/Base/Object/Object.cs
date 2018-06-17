@@ -1,10 +1,14 @@
 ﻿using System;
 using LitJson;
 
-namespace ETModel
+namespace BK
 {
 	public abstract class Object : IDisposable
 	{
+		protected Object()
+		{
+
+		}
 		public ulong InstanceId { get; } = IdGenerater.GenerateId();
 
 		public virtual bool IsDisposed { get; internal set; } = true;

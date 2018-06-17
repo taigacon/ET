@@ -5,13 +5,13 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace ETModel
+namespace BK
 {
 	public sealed class TService: AService
 	{
 		private TcpListener acceptor;
 
-		private readonly Dictionary<long, TChannel> idChannels = new Dictionary<long, TChannel>();
+		private readonly Dictionary<ulong, TChannel> idChannels = new Dictionary<ulong, TChannel>();
 		
 		/// <summary>
 		/// 即可做client也可做server
@@ -35,7 +35,7 @@ namespace ETModel
 				return;
 			}
 
-			foreach (long id in this.idChannels.Keys.ToArray())
+			foreach (ulong id in this.idChannels.Keys.ToArray())
 			{
 				TChannel channel = this.idChannels[id];
 				channel.Dispose();
@@ -44,7 +44,7 @@ namespace ETModel
 			this.acceptor = null;
 		}
 		
-		public override AChannel GetChannel(long id)
+		public override AChannel GetChannel(ulong id)
 		{
 			TChannel channel = null;
 			this.idChannels.TryGetValue(id, out channel);
@@ -59,7 +59,7 @@ namespace ETModel
 			}
 			TcpClient tcpClient = await this.acceptor.AcceptTcpClientAsync();
 			TChannel channel = new TChannel(tcpClient, this);
-			this.idChannels[channel.Id] = channel;
+			this.idChannels[channel.InstanceId] = channel;
 			return channel;
 		}
 
@@ -67,13 +67,13 @@ namespace ETModel
 		{
 			TcpClient tcpClient = new TcpClient();
 			TChannel channel = new TChannel(tcpClient, ipEndPoint, this);
-			this.idChannels[channel.Id] = channel;
+			this.idChannels[channel.InstanceId] = channel;
 
 			return channel;
 		}
 
 
-		public override void Remove(long id)
+		public override void Remove(ulong id)
 		{
 			TChannel channel;
 			if (!this.idChannels.TryGetValue(id, out channel))

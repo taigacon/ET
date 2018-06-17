@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ETModel.UIBind
+namespace BK.UIBind
 {
 	public class UIDataCell
 	{

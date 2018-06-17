@@ -1,4 +1,4 @@
-﻿namespace ETModel
+﻿namespace BK
 {
 	public class BTStringComponent: BTTypeBaseComponent
 	{

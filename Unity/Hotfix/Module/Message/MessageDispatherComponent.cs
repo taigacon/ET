@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ETModel;
+using BK;
 
 namespace ETHotfix
 {
@@ -38,10 +38,10 @@ namespace ETHotfix
 		{
 			this.handlers.Clear();
 
-			ETModel.MessageDispatherComponent messageDispatherComponent = ETModel.Game.MessageDispatherComponent;
-			ETModel.OpcodeTypeComponent opcodeTypeComponent = ETModel.Game.OpcodeTypeComponent;
+			BK.MessageDispatherComponent messageDispatherComponent = BK.Game.MessageDispatherComponent;
+			BK.OpcodeTypeComponent opcodeTypeComponent = BK.Game.OpcodeTypeComponent;
 
-			Type[] types = ETModel.Game.Hotfix.GetHotfixTypes();
+			Type[] types = BK.Game.Hotfix.GetHotfixTypes();
 
 			foreach (Type type in types)
 			{
@@ -89,7 +89,7 @@ namespace ETHotfix
 			this.handlers[opcode].Add(handler);
 		}
 
-		public void Handle(ETModel.Session session, MessageInfo messageInfo)
+		public void Handle(BK.Session session, MessageInfo messageInfo)
 		{
 			List<IMHandler> actions;
 			if (!this.handlers.TryGetValue(messageInfo.Opcode, out actions))

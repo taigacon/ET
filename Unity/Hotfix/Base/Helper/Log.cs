@@ -6,27 +6,27 @@ namespace ETHotfix
 	{
 		public static void Warning(string msg)
 		{
-			ETModel.Log.Warning(msg);
+			BK.Log.Warning(msg);
 		}
 
 		public static void Info(string msg)
 		{
-			ETModel.Log.Info(msg);
+			BK.Log.Info(msg);
 		}
 
 		public static void Error(Exception e)
 		{
-			ETModel.Log.Error(e.ToStr());
+			BK.Log.Error(e.ToStr());
 		}
 
 		public static void Error(string msg)
 		{
-			ETModel.Log.Error(msg);
+			BK.Log.Error(msg);
 		}
 
 		public static void Debug(string msg)
 		{
-			ETModel.Log.Debug(msg);
+			BK.Log.Debug(msg);
 		}
 	}
 }

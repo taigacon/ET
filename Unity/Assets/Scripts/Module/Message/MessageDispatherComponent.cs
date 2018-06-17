@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using LitJson;
 
-namespace ETModel
+namespace BK
 {
 	[ObjectSystem]
 	public class MessageDispatherComponentAwakeSystem : AwakeSystem<MessageDispatherComponent>
@@ -79,7 +80,7 @@ namespace ETModel
 			List<IMHandler> actions;
 			if (!this.handlers.TryGetValue(messageInfo.Opcode, out actions))
 			{
-				Log.Error($"消息没有处理: {messageInfo.Opcode} {JsonHelper.ToJson(messageInfo.Message)}");
+				Log.Error($"消息没有处理: {messageInfo.Opcode} {JsonMapper.ToJson(messageInfo.Message)}");
 				return;
 			}
 			

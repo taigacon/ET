@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ETModel.UIBind
+namespace BK.UIBind
 {
     //数据绑定和发送事件的节点
     public abstract class BaseUINode : MonoBehaviour

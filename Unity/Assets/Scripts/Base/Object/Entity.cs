@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace ETModel
+namespace BK
 {
 	[BsonIgnoreExtraElements]
 	public class Entity : Object
@@ -58,7 +58,7 @@ namespace ETModel
 				throw new Exception($"AddComponent, component already exist, id: {this.InstanceId}, component: {type.Name}");
 			}
 
-			Component component = ObjectFactory.CreateWithParent(type, this);
+			Component component = ObjectFactory.CreateComponentWithParent(type, this);
 
 			this.componentDict.Add(type, component);
 			return component;
@@ -72,7 +72,7 @@ namespace ETModel
 				throw new Exception($"AddComponent, component already exist, id: {this.InstanceId}, component: {typeof(K).Name}");
 			}
 
-			K component = ObjectFactory.CreateWithParent<K>(this);
+			K component = ObjectFactory.CreateComponentWithParent<K>(this);
 
 			this.componentDict.Add(type, component);
 			return component;
@@ -86,7 +86,7 @@ namespace ETModel
 				throw new Exception($"AddComponent, component already exist, id: {this.InstanceId}, component: {typeof(K).Name}");
 			}
 
-			K component = ObjectFactory.CreateWithParent<K, P1>(this, p1);
+			K component = ObjectFactory.CreateComponentWithParent<K, P1>(this, p1);
 
 			this.componentDict.Add(type, component);
 			return component;
@@ -100,7 +100,7 @@ namespace ETModel
 				throw new Exception($"AddComponent, component already exist, id: {this.InstanceId}, component: {typeof(K).Name}");
 			}
 
-			K component = ObjectFactory.CreateWithParent<K, P1, P2>(this, p1, p2);
+			K component = ObjectFactory.CreateComponentWithParent<K, P1, P2>(this, p1, p2);
 
 			this.componentDict.Add(type, component);
 			return component;
@@ -114,7 +114,7 @@ namespace ETModel
 				throw new Exception($"AddComponent, component already exist, id: {this.InstanceId}, component: {typeof(K).Name}");
 			}
 
-			K component = ObjectFactory.CreateWithParent<K, P1, P2, P3>(this, p1, p2, p3);
+			K component = ObjectFactory.CreateComponentWithParent<K, P1, P2, P3>(this, p1, p2, p3);
 
 			this.componentDict.Add(type, component);
 			return component;

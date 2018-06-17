@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ETModel
+namespace BK
 {
 	public class BTShaderComponent: BTTypeBaseComponent
 	{

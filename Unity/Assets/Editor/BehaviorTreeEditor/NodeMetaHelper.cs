@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using ETModel;
+using BK;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -258,7 +258,7 @@ namespace ETEditor
 		public static Type GetNodeType(string nodeName)
 		{
 			Assembly assembly = GetModelAssembly();
-			Type nodeType = assembly.GetType("ETModel." + nodeName);
+			Type nodeType = assembly.GetType("BK." + nodeName);
 			if (nodeType == null)
 			{
 				Log.Error($"不存在此节点:{nodeName}");

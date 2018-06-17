@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace ETModel.Reflection
+namespace BK.Reflection
 {
 	public static class PropertyUtil
 	{

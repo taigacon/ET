@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace ETModel.UIBind
+namespace BK.UIBind
 {
 	public static class UIBindUtils
 	{

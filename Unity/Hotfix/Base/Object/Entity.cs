@@ -8,22 +8,16 @@ namespace ETHotfix
 	[BsonIgnoreExtraElements]
 	public class Entity : ComponentWithId
 	{
-		[BsonElement]
-		[BsonIgnoreIfNull]
-		private HashSet<Component> components;
-
 		[BsonIgnore]
 		private Dictionary<Type, Component> componentDict;
 
 		public Entity()
 		{
-			this.components = new HashSet<Component>();
 			this.componentDict = new Dictionary<Type, Component>();
 		}
 
 		protected Entity(long id): base(id)
 		{
-			this.components = new HashSet<Component>();
 			this.componentDict = new Dictionary<Type, Component>();
 		}
 

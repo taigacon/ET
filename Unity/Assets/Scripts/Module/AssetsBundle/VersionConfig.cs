@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace ETModel
+namespace BK
 {
 	public class FileVersionInfo
 	{
@@ -10,7 +11,7 @@ namespace ETModel
 		public long Size;
 	}
 
-	public class VersionConfig : Object
+	public class VersionConfig
 	{
 		public int Version;
 		
@@ -18,15 +19,5 @@ namespace ETModel
 		
 		[BsonIgnore]
 		public Dictionary<string, FileVersionInfo> FileInfoDict = new Dictionary<string, FileVersionInfo>();
-
-		public override void EndInit()
-		{
-			base.EndInit();
-
-			foreach (FileVersionInfo fileVersionInfo in this.FileInfoDict.Values)
-			{
-				this.TotalSize += fileVersionInfo.Size;
-			}
-		}
 	}
 }

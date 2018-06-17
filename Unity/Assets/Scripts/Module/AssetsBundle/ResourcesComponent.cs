@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-namespace ETModel
+namespace BK
 {
 	public class ABInfo : Component
 	{
@@ -305,11 +305,8 @@ namespace ETModel
 			{
 				p = Path.Combine(PathHelper.AppResPath, assetBundleName);
 			}
-			
-			using (AssetsBundleLoaderAsync assetsBundleLoaderAsync = ObjectFactory.Create<AssetsBundleLoaderAsync>())
-			{
-				assetBundle = await assetsBundleLoaderAsync.LoadAsync(p);
-			}
+
+			assetBundle = await AssetBundle.LoadFromFileAsync(p);
 
 			if (assetBundle == null)
 			{
@@ -319,11 +316,7 @@ namespace ETModel
 			if (!assetBundle.isStreamedSceneAssetBundle)
 			{
 				// 异步load资源到内存cache住
-				UnityEngine.Object[] assets;
-				using (AssetsLoaderAsync assetsLoaderAsync = ObjectFactory.Create<AssetsLoaderAsync, AssetBundle>(assetBundle))
-				{
-					assets = await assetsLoaderAsync.LoadAllAssetsAsync();
-				}
+				UnityEngine.Object[] assets = (await assetBundle.LoadAllAssetsAsync()).allAssets;
 				foreach (UnityEngine.Object asset in assets)
 				{
 					string path = $"{assetBundleName}/{asset.name}".ToLower();

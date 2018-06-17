@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace ETModel
+namespace BK
 {
 	public static class KcpProtocalType
 	{
@@ -22,19 +22,19 @@ namespace ETModel
 
 		private UdpClient socket;
 
-		private readonly Dictionary<long, KChannel> idChannels = new Dictionary<long, KChannel>();
+		private readonly Dictionary<ulong, KChannel> idChannels = new Dictionary<ulong, KChannel>();
 
 		private TaskCompletionSource<AChannel> acceptTcs;
 
-		private readonly Queue<long> removedChannels = new Queue<long>();
+		private readonly Queue<ulong> removedChannels = new Queue<ulong>();
 
 		// 下帧要更新的channel
-		private readonly HashSet<long> updateChannels = new HashSet<long>();
+		private readonly HashSet<ulong> updateChannels = new HashSet<ulong>();
 
 		// 下次时间更新的channel
-		private readonly MultiMap<long, long> timerId = new MultiMap<long, long>();
+		private readonly MultiMap<long, ulong> timerId = new MultiMap<long, ulong>();
 
-		private readonly List<long> timeOutId = new List<long>();
+		private readonly List<ulong> timeOutId = new List<ulong>();
 
 		public KService(IPEndPoint ipEndPoint)
 		{
@@ -235,17 +235,17 @@ namespace ETModel
 			return channel;
 		}
 
-		public void AddToUpdate(long id)
+		public void AddToUpdate(uint id)
 		{
 			this.updateChannels.Add(id);
 		}
 
-		public void AddToNextTimeUpdate(long time, long id)
+		public void AddToNextTimeUpdate(long time, uint id)
 		{
 			this.timerId.Add(time, id);
 		}
 
-		public override AChannel GetChannel(long id)
+		public override AChannel GetChannel(ulong id)
 		{
 			KChannel channel;
 			this.idChannels.TryGetValue(id, out channel);
@@ -265,7 +265,7 @@ namespace ETModel
 		}
 
 
-		public override void Remove(long id)
+		public override void Remove(ulong id)
 		{
 			KChannel channel;
 			if (!this.idChannels.TryGetValue(id, out channel))
@@ -284,7 +284,7 @@ namespace ETModel
 		{
 			this.TimerOut();
 
-			foreach (long id in updateChannels)
+			foreach (ulong id in updateChannels)
 			{
 				KChannel kChannel;
 				if (!this.idChannels.TryGetValue(id, out kChannel))
@@ -305,7 +305,7 @@ namespace ETModel
 				{
 					break;
 				}
-				long id = this.removedChannels.Dequeue();
+				ulong id = this.removedChannels.Dequeue();
 				this.idChannels.Remove(id);
 			}
 		}
@@ -329,14 +329,14 @@ namespace ETModel
 				{
 					break;
 				}
-				foreach (long ll in this.timerId[k])
+				foreach (ulong ll in this.timerId[k])
 				{
 					this.timeOutId.Add(ll);
 				}
 				this.timerId.Remove(k);
 			}
 
-			foreach (long k in this.timeOutId)
+			foreach (ulong k in this.timeOutId)
 			{
 				this.updateChannels.Add(k);
 			}

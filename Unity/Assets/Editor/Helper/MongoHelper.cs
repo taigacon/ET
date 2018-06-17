@@ -7,7 +7,7 @@ using MongoDB.Bson.Serialization.Serializers;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace ETModel
+namespace BK
 {
 	public static class MongoHelper
 	{

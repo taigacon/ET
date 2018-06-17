@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ETModel
+namespace BK
 {
 	internal enum ParserState
 	{

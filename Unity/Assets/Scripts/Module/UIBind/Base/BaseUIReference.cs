@@ -1,5 +1,5 @@
 ﻿
-namespace ETModel.UIBind
+namespace BK.UIBind
 {
     public abstract class BaseUIReference : BaseUINode
     {

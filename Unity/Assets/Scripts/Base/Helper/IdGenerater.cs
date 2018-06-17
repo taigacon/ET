@@ -1,4 +1,4 @@
-﻿namespace ETModel
+﻿namespace BK
 {
 	public static class IdGenerater
 	{
@@ -8,9 +8,9 @@
 
 		public static ulong GenerateId()
 		{
-			ulong time = TimeHelper.ClientNowSeconds();
+			long time = TimeHelper.ClientNowSeconds();
 
-			return (AppId << 48) + (time << 16) + ++value;
+			return (AppId << 48) + ((ulong)time << 16) + ++value;
 		}
 
 		public static int GetAppIdFromId(long id)

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ETModel
+namespace BK
 {
 	public class ClientDispatcher: IMessageDispatcher
 	{
@@ -24,7 +24,7 @@ namespace ETModel
 				// 出现任何解析消息异常都要断开Session，防止客户端伪造消息
 				Log.Error(e);
 				session.Error = ErrorCode.ERR_PacketParserError;
-				session.Network.Remove(session.Id);
+				session.Network.Remove(session.InstanceId);
 				return;
 			}
 				

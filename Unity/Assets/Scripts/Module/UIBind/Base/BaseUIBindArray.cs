@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ETModel.UIBind
+namespace BK.UIBind
 {
     //UI绑定数组，负责Template的创建销毁，底下BindCell的数据初始化
     public class BaseUIBindArray : BaseUIBindContainer

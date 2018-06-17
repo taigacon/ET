@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace ETModel
+namespace BK
 {
 	public static class MethodInfoHelper
 	{

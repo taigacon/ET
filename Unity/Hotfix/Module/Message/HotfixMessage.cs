@@ -1,5 +1,5 @@
 using ProtoBuf;
-using ETModel;
+using BK;
 using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
 namespace ETHotfix

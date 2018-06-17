@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ETModel;
+using BK;
 
 namespace ETHotfix
 {
@@ -37,7 +37,7 @@ namespace ETHotfix
 
 		public EventSystem()
 		{
-			Type[] types = ETModel.Game.Hotfix.GetHotfixTypes();
+			Type[] types = BK.Game.Hotfix.GetHotfixTypes();
 			foreach (Type type in types)
 			{
 				object[] attrs = type.GetCustomAttributes(typeof(ObjectSystemAttribute), false);
@@ -110,7 +110,7 @@ namespace ETHotfix
 
 					// hotfix的事件也要注册到mono层，hotfix可以订阅mono层的事件
 					Action<List<object>> action = list => { Handle(aEventAttribute.Type, list); };
-					ETModel.Game.EventSystem.RegisterEvent(aEventAttribute.Type, new EventProxy(action));
+					BK.Game.EventSystem.RegisterEvent(aEventAttribute.Type, new EventProxy(action));
 				}
 			}
 

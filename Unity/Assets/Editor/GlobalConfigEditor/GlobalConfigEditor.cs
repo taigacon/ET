@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using ETModel;
+using BK;
 using UnityEditor;
 using UnityEngine;
 
@@ -21,7 +21,7 @@ namespace ETEditor
         {
             if (File.Exists(path))
             {
-                this.globalProto = JsonHelper.FromJson<GlobalProto>(File.ReadAllText(path));
+                this.globalProto = JsonMapper.ToObject<GlobalProto>(File.ReadAllText(path));
             }
             else
             {

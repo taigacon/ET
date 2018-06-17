@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ETModel
+namespace BK
 {
 	public static class OpcodeHelper
 	{

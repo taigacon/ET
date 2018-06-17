@@ -1,4 +1,4 @@
-﻿namespace ETModel
+﻿namespace BK
 {
 	public static class StaticObject<T> where T : class, new()
 	{

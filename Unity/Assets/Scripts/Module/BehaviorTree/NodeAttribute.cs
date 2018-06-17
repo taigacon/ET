@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ETModel
+namespace BK
 {
 	[AttributeUsage(AttributeTargets.Class)]
 	public class NodeAttribute: Attribute

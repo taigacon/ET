@@ -2,11 +2,11 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ETModel
+namespace BK
 {
 	public struct Timer
 	{
-		public long Id { get; set; }
+		public ulong Id { get; set; }
 		public long Time { get; set; }
 		public TaskCompletionSource<bool> tcs;
 	}
@@ -22,12 +22,12 @@ namespace ETModel
 
 	public class TimerComponent : Component
 	{
-		private readonly Dictionary<long, Timer> timers = new Dictionary<long, Timer>();
+		private readonly Dictionary<ulong, Timer> timers = new Dictionary<ulong, Timer>();
 
 		/// <summary>
 		/// key: time, value: timer id
 		/// </summary>
-		private readonly MultiMap<long, long> timeId = new MultiMap<long, long>();
+		private readonly MultiMap<long, ulong> timeId = new MultiMap<long, ulong>();
 
 		private readonly List<long> timeOutTime = new List<long>();
 
@@ -50,7 +50,7 @@ namespace ETModel
 			
 			this.timeOutTime.Clear();
 
-			foreach (KeyValuePair<long,List<long>> kv in this.timeId.GetDictionary())
+			foreach (KeyValuePair<long,List<ulong>> kv in this.timeId.GetDictionary())
 			{
 				long k = kv.Key;
 				if (k > timeNow)
@@ -63,7 +63,7 @@ namespace ETModel
 
 			foreach (long k in this.timeOutTime)
 			{
-				foreach (long v in this.timeId[k])
+				foreach (ulong v in this.timeId[k])
 				{
 					Timer timer;
 					if (!this.timers.TryGetValue(v, out timer))
@@ -78,7 +78,7 @@ namespace ETModel
 			}
 		}
 
-		private void Remove(long id)
+		private void Remove(ulong id)
 		{
 			Timer timer;
 			if (!this.timers.TryGetValue(id, out timer))

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-namespace ETModel
+namespace BK
 {
 	public sealed class Hotfix : Object
 	{

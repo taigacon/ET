@@ -1,13 +1,13 @@
 ﻿using System;
-using ETModel;
+using BK;
 
 namespace ETHotfix
 {
 	public abstract class AMHandler<Message> : IMHandler where Message: class
 	{
-		protected abstract void Run(ETModel.Session session, Message message);
+		protected abstract void Run(BK.Session session, Message message);
 
-		public void Handle(ETModel.Session session, object msg)
+		public void Handle(BK.Session session, object msg)
 		{
 			Message message = msg as Message;
 			if (message == null)

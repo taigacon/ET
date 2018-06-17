@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace ETModel
+namespace BK
 {
 	public class TChannel : AChannel
 	{
@@ -120,7 +120,7 @@ namespace ETModel
 
 		private async void StartSend()
 		{
-			long instanceId = this.InstanceId;
+			ulong instanceId = this.InstanceId;
 			try
 			{
 				// 如果正在发送中,不需要再次发送
@@ -172,7 +172,7 @@ namespace ETModel
 
 		private async void StartRecv()
 		{
-			long instanceId = this.InstanceId;
+			ulong instanceId = this.InstanceId;
 			try
 			{
 				while (true)

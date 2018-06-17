@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ETModel
+namespace BK
 {
 	public static class GameObjectHelper
 	{

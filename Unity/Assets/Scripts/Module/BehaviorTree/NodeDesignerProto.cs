@@ -1,6 +1,6 @@
-namespace ETModel
+namespace BK
 {
-	public class NodeDesignerProto: IConfig
+	public class NodeDesignerProto
 	{
 		public string name;
 		public float x = 0;

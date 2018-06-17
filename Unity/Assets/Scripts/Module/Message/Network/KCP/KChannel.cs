@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace ETModel
+namespace BK
 {
 	public struct WaitSendBuffer
 	{
@@ -38,8 +38,8 @@ namespace ETModel
 
 		private readonly byte[] cacheBytes = new byte[ushort.MaxValue];
 
+		public uint Id;
 		public uint Conn;
-
 		public uint RemoteConn;
 
 		// accept

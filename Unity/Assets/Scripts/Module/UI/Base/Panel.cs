@@ -1,18 +1,9 @@
 ﻿using System.Collections.Generic;
-using ETModel.UIBind;
+using BK.UIBind;
 using UnityEngine;
 
-namespace ETModel
+namespace BK
 {
-	[ObjectSystem]
-	public class PanelAwakeSystem : AwakeSystem<Panel, GameObject, PanelConfigAttribute>
-	{
-		public override void Awake(Panel self, GameObject gameObject, PanelConfigAttribute config)
-		{
-			self.Awake(gameObject, config);
-		}
-	}
-
 	public abstract class Panel : Entity
 	{
 		public string Name => this.GameObject.name;
@@ -43,10 +34,9 @@ namespace ETModel
 
 			this.OnDestroy();
 			this.BindRoot.Dispose();
+			UnityEngine.Object.Destroy(GameObject);
 			base.Dispose();
 			
-			UnityEngine.Object.Destroy(GameObject);
-			this.Parent = null;
 		}
 
 		public virtual void OnShow(object param)

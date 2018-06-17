@@ -1,4 +1,4 @@
-﻿using ETModel;
+﻿using BK;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace ETHotfix

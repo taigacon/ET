@@ -1,11 +1,11 @@
 ﻿using System;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace ETModel
+namespace BK
 {
 	public abstract class Component : Object
 	{
-		private Component()
+		protected Component()
 		{
 		}
 
@@ -42,6 +42,15 @@ namespace ETModel
 		{
 			if (this.IsDisposed)
 			{
+				return;
+			}
+
+			// 由parent触发dispose
+			if (Parent != null)
+			{
+				var parent = Parent;
+				Parent = null;
+				parent.RemoveComponent(this.GetType());
 				return;
 			}
 			// 触发Destroy事件

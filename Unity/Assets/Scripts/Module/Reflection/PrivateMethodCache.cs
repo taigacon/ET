@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 
 
-namespace ETModel.Reflection
+namespace BK.Reflection
 {
 	public static class PrivateMethodCache
 	{

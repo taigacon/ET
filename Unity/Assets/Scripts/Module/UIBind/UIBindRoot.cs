@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ILRuntime.Other;
 using UnityEngine;
 
-namespace ETModel.UIBind
+namespace BK.UIBind
 {
 	public class UIBindRoot
 	{

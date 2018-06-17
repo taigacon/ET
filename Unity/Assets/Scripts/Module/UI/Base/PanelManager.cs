@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace ETModel
+namespace BK
 {
 	[ObjectSystem]
 	public class PanelManagerAwakeSystem : AwakeSystem<PanelManager>
@@ -106,7 +106,8 @@ namespace ETModel
 				PanelConfigAttribute config = this.panelConfigAttributes[panelId];
 				await Game.ResourcesComponent.LoadBundleAsync($"{panelId}");
 				GameObject go = GameObject.Instantiate((GameObject)Game.ResourcesComponent.GetAsset($"{panelId}", $"{panelId}.prefab"));
-				panel = (Panel)ObjectFactory.Create(type, go, config);
+				panel = (Panel)ObjectFactory.CreateEntity(type);
+				panel.Awake(go, config);
 				this.isLoading.Remove(panelId);
 				this.panelCache.Add(panelId, panel);
 				if(showWhenDone)

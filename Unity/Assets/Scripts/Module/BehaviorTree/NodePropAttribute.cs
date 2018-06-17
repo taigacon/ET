@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ETModel
+namespace BK
 {
 	[AttributeUsage(AttributeTargets.Field)]
 	public class NodeFieldAttribute: NodeFieldBaseAttribute

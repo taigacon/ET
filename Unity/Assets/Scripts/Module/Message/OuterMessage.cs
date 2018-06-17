@@ -1,8 +1,8 @@
 using ProtoBuf;
-using ETModel;
+using BK;
 using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
-namespace ETModel
+namespace BK
 {
 	[Message(OuterOpcode.Actor_Test)]
 	[ProtoContract]
@@ -137,7 +137,7 @@ namespace ETModel
 		[ProtoMember(93, IsRequired = true)]
 		public long ActorId { get; set; }
 
-		[ProtoMember(1, TypeName = "ETModel.UnitInfo")]
+		[ProtoMember(1, TypeName = "BK.UnitInfo")]
 		public List<UnitInfo> Units = new List<UnitInfo>();
 
 	}

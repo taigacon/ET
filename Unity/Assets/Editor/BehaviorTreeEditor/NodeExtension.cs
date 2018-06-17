@@ -5,7 +5,7 @@ using ETEditor;
 using UnityEditor;
 using UnityEngine;
 
-namespace ETModel
+namespace BK
 {
 	public class BTEditorTree
 	{

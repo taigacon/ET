@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace ETModel
+namespace BK
 {
 	public abstract class NetworkComponent : Component
 	{
@@ -12,7 +12,7 @@ namespace ETModel
 
 		public AppType AppType;
 
-		private readonly Dictionary<long, Session> sessions = new Dictionary<long, Session>();
+		private readonly Dictionary<ulong, Session> sessions = new Dictionary<ulong, Session>();
 
 		public IMessagePacker MessagePacker { get; set; }
 
@@ -80,21 +80,21 @@ namespace ETModel
 		public virtual async Task<Session> Accept()
 		{
 			AChannel channel = await this.Service.AcceptChannel();
-			Session session = ObjectFactory.CreateWithId<Session, NetworkComponent, AChannel>(IdGenerater.GenerateId(), this, channel);
-			session.Parent = this;
+			Session session = ObjectFactory.CreateEntity<Session>();
+			session.Awake(this, channel);
 			channel.ErrorCallback += (c, e) =>
 			{
 				session.Error = e;
-				this.Remove(session.Id);
+				this.Remove(session.InstanceId);
 			};
 
 			channel.ReadCallback += (packet) => { session.OnRead(packet); };
 			
-			this.sessions.Add(session.Id, session);
+			this.sessions.Add(session.InstanceId, session);
 			return session;
 		}
 
-		public virtual void Remove(long id)
+		public virtual void Remove(ulong id)
 		{
 			Session session;
 			if (!this.sessions.TryGetValue(id, out session))
@@ -105,7 +105,7 @@ namespace ETModel
 			session.Dispose();
 		}
 
-		public Session Get(long id)
+		public Session Get(ulong id)
 		{
 			Session session;
 			this.sessions.TryGetValue(id, out session);
@@ -120,17 +120,17 @@ namespace ETModel
 			try
 			{
 				AChannel channel = this.Service.ConnectChannel(ipEndPoint);
-				Session session = ObjectFactory.CreateWithId<Session, NetworkComponent, AChannel>(IdGenerater.GenerateId(), this, channel);
-				session.Parent = this;
+				Session session = ObjectFactory.CreateEntity<Session>();
+				session.Awake(this, channel);
 				channel.ErrorCallback += (c, e) =>
 				{
 					session.Error = e;
-					this.Remove(session.Id);
+					this.Remove(session.InstanceId);
 				};
 				
 				channel.ReadCallback += (packet) => { session.OnRead(packet); };
 				
-				this.sessions.Add(session.Id, session);
+				this.sessions.Add(session.InstanceId, session);
 				return session;
 			}
 			catch (Exception e)

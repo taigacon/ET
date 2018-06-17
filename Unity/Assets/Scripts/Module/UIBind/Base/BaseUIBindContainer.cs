@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ETModel.UIBind
+namespace BK.UIBind
 {
     public abstract class BaseUIBindContainer : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ETModel
+namespace BK
 {
 	[ObjectSystem]
 	public class OpcodeTypeComponentSystem : AwakeSystem<OpcodeTypeComponent>

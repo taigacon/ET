@@ -1,5 +1,5 @@
 ﻿using System;
-using ETModel;
+using BK;
 
 namespace ETHotfix
 {
@@ -10,9 +10,9 @@ namespace ETHotfix
 			try
 			{
 				// 注册热更层回调
-				ETModel.Game.Hotfix.Update = Update;
-				ETModel.Game.Hotfix.LateUpdate = LateUpdate;
-				ETModel.Game.Hotfix.OnApplicationQuit = OnApplicationQuit;
+				BK.Game.Hotfix.Update = Update;
+				BK.Game.Hotfix.LateUpdate = LateUpdate;
+				BK.Game.Hotfix.OnApplicationQuit = OnApplicationQuit;
 				
 				Game.Init();
 				Game.EventSystem.Run(EventIdType.InitSceneStart);

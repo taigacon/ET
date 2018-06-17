@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using ETModel;
+using BK;
 
 namespace ETHotfix
 {
 	[ObjectSystem]
-	public class SessionAwakeSystem : AwakeSystem<Session, ETModel.Session>
+	public class SessionAwakeSystem : AwakeSystem<Session, BK.Session>
 	{
-		public override void Awake(Session self, ETModel.Session session)
+		public override void Awake(Session self, BK.Session session)
 		{
 			self.session = session;
 			SessionCallbackComponent sessionComponent = self.session.AddComponent<SessionCallbackComponent>();
@@ -23,7 +23,7 @@ namespace ETHotfix
 	/// </summary>
 	public class Session: Entity
 	{
-		public ETModel.Session session;
+		public BK.Session session;
 
 		private static int RpcId { get; set; }
 		private readonly Dictionary<int, Action<IResponse>> requestCallback = new Dictionary<int, Action<IResponse>>();
@@ -40,7 +40,7 @@ namespace ETHotfix
 			this.session.Dispose();
 		}
 
-		public void Run(ETModel.Session s, Packet p)
+		public void Run(BK.Session s, Packet p)
 		{
 			ushort opcode = p.Opcode;
 			byte flag = p.Flag;

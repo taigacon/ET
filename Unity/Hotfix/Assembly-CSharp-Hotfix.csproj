@@ -68,14 +68,9 @@
     <Compile Include="Base\Object\IDestroySystem.cs" />
     <Compile Include="Base\Object\IStartSystem.cs" />
     <Compile Include="Module\FrameSync\OperaComponent.cs" />
-    <Compile Include="Entity\Config\UnitConfig.cs" />
     <Compile Include="Module\FrameSync\TestHotfixSubscribMonoEvent_LogString.cs" />
     <Compile Include="Module\FrameSync\Actor_TestHandler.cs" />
     <Compile Include="Module\FrameSync\G2C_TestHotfixHandler.cs" />
-    <Compile Include="Module\Config\ACategory.cs" />
-    <Compile Include="Module\Config\IConfig.cs" />
-    <Compile Include="Module\Config\ConfigComponent.cs" />
-    <Compile Include="Module\Config\ConfigHelper.cs" />
     <Compile Include="Module\Message\IActorMessage.cs" />
     <Compile Include="Module\Message\HotfixMessageDispatcher.cs" />
     <Compile Include="Module\Message\IMessage.cs" />

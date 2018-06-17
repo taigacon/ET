@@ -1,6 +1,7 @@
 ﻿using System;
+using LitJson;
 
-namespace ETModel
+namespace BK
 {
 	public class ProtobufPacker : IMessagePacker
 	{
@@ -11,7 +12,7 @@ namespace ETModel
 
 		public string SerializeToText(object obj)
 		{
-			return JsonHelper.ToJson(obj);
+			return JsonMapper.ToJson(obj);
 		}
 
 		public object DeserializeFrom(Type type, byte[] bytes)
@@ -36,12 +37,12 @@ namespace ETModel
 
 		public T DeserializeFrom<T>(string str)
 		{
-			return JsonHelper.FromJson<T>(str);
+			return JsonMapper.ToObject<T>(str);
 		}
 
 		public object DeserializeFrom(Type type, string str)
 		{
-			return JsonHelper.FromJson(type, str);
+			return JsonMapper.ToObject(type, str);
 		}
 	}
 }

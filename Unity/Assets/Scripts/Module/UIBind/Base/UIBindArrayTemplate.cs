@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-namespace ETModel.UIBind
+namespace BK.UIBind
 {
     public class UIBindArrayTemplate : MonoBehaviour
     {

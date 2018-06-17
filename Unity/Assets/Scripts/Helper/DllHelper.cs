@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-namespace ETModel
+namespace BK
 {
 	public static class DllHelper
 	{

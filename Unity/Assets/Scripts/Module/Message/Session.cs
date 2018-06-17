@@ -6,17 +6,8 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ETModel
+namespace BK
 {
-	[ObjectSystem]
-	public class SessionAwakeSystem : AwakeSystem<Session, NetworkComponent, AChannel>
-	{
-		public override void Awake(Session self, NetworkComponent a, AChannel b)
-		{
-			self.Awake(a, b);
-		}
-	}
-
 	public sealed class Session : Entity
 	{
 		private static int RpcId { get; set; }
@@ -26,16 +17,11 @@ namespace ETModel
 		private readonly Dictionary<int, Action<IResponse>> requestCallback = new Dictionary<int, Action<IResponse>>();
 		private readonly List<byte[]> byteses = new List<byte[]>() { new byte[1], new byte[0], new byte[0]};
 
-		public NetworkComponent Network
-		{
-			get
-			{
-				return this.GetParent<NetworkComponent>();
-			}
-		}
+		public NetworkComponent Network { get; private set; }
 
 		public void Awake(NetworkComponent net, AChannel c)
 		{
+			this.Network = net;
 			this.Error = 0;
 			this.channel = c;
 			this.requestCallback.Clear();
@@ -48,10 +34,6 @@ namespace ETModel
 				return;
 			}
 
-			long id = this.Id;
-
-			base.Dispose();
-
 			foreach (Action<IResponse> action in this.requestCallback.Values.ToArray())
 			{
 				action.Invoke(new ResponseMessage { Error = this.Error });
@@ -59,8 +41,10 @@ namespace ETModel
 
 			this.Error = 0;
 			this.channel.Dispose();
-			this.Network.Remove(id);
+			this.Network.Remove(InstanceId);
 			this.requestCallback.Clear();
+
+			base.Dispose();
 		}
 
 		public IPEndPoint RemoteAddress
@@ -127,7 +111,7 @@ namespace ETModel
 				// 出现任何消息解析异常都要断开Session，防止客户端伪造消息
 				Log.Error(e);
 				this.Error = ErrorCode.ERR_PacketParserError;
-				this.Network.Remove(this.Id);
+				this.Network.Remove(this.InstanceId);
 				return;
 			}
 				

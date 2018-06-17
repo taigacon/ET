@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ETModel
+namespace BK
 {
 	public static class TimeHelper
 	{
@@ -9,21 +9,21 @@ namespace ETModel
 		/// 客户端时间
 		/// </summary>
 		/// <returns></returns>
-		public static ulong ClientNow()
+		public static long ClientNow()
 		{
-			return (ulong)(DateTime.UtcNow.Ticks - epoch) / 10000;
+			return (long)(DateTime.UtcNow.Ticks - epoch) / 10000;
 		}
 
-		public static ulong ClientNowSeconds()
+		public static long ClientNowSeconds()
 		{
-			return (ulong)(DateTime.UtcNow.Ticks - epoch) / 10000000;
+			return (long)(DateTime.UtcNow.Ticks - epoch) / 10000000;
 		}
 
 		/// <summary>
 		/// 登陆前是客户端时间,登陆后是同步过的服务器时间
 		/// </summary>
 		/// <returns></returns>
-		public static ulong Now()
+		public static long Now()
 		{
 			return ClientNow();
 		}

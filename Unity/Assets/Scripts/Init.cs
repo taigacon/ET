@@ -2,7 +2,7 @@
 using System.Threading;
 using UnityEngine;
 
-namespace ETModel
+namespace BK
 {
 	public class Init : MonoBehaviour
 	{

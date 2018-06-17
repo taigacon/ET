@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace ETModel
+namespace BK
 {
 	[Flags]
 	public enum PacketFlags
@@ -21,7 +21,7 @@ namespace ETModel
 		Accept,
 	}
 
-	public abstract class AChannel: ComponentWithId
+	public abstract class AChannel: Component
 	{
 		public ChannelType ChannelType { get; }
 
@@ -98,7 +98,7 @@ namespace ETModel
 
 			base.Dispose();
 
-			this.service.Remove(this.Id);
+			this.service.Remove(this.InstanceId);
 		}
 	}
 }

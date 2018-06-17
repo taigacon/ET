@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using LitJson;
+using UnityEngine.Networking;
 
-namespace ETModel
+namespace BK
 {
 	[ObjectSystem]
 	public class UiBundleDownloaderComponentAwakeSystem : AwakeSystem<BundleDownloaderComponent>
@@ -31,36 +33,29 @@ namespace ETModel
 
 		public string downloadingBundle;
 
-		public UnityWebRequestAsync webRequest;
-
 		public TaskCompletionSource<bool> Tcs;
 
 		public async Task StartAsync()
 		{
-			using (UnityWebRequestAsync webRequestAsync = ObjectFactory.Create<UnityWebRequestAsync>())
 			{
-				string versionUrl = GlobalConfigComponent.Instance.GlobalProto.GetUrl() + "StreamingAssets/" + "Version.txt";
-				//Log.Debug(versionUrl);
-				await webRequestAsync.DownloadAsync(versionUrl);
-				this.VersionConfig = JsonHelper.FromJson<VersionConfig>(webRequestAsync.Request.downloadHandler.text);
-				//Log.Debug(JsonHelper.ToJson(this.VersionConfig));
+				string versionUrl = ""/*FIXME*/ + "StreamingAssets/" + "Version.txt";
+				var request = await UnityWebRequest.Get(versionUrl).SendWebRequest();
+				this.VersionConfig = JsonMapper.ToObject<VersionConfig>(request.downloadHandler.text);
 			}
-
 
 			VersionConfig localVersionConfig;
 			// 对比本地的Version.txt
 			string versionPath = Path.Combine(PathHelper.AppHotfixResPath, "Version.txt");
 			if (File.Exists(versionPath))
 			{
-				localVersionConfig = JsonHelper.FromJson<VersionConfig>(File.ReadAllText(versionPath));
+				localVersionConfig = JsonMapper.ToObject<VersionConfig>(File.ReadAllText(versionPath));
 			}
 			else
 			{
 				versionPath = Path.Combine(PathHelper.AppResPath4Web, "Version.txt");
-				using (UnityWebRequestAsync request = ObjectFactory.Create<UnityWebRequestAsync>())
 				{
-					await request.DownloadAsync(versionPath);
-					localVersionConfig = JsonHelper.FromJson<VersionConfig>(request.Request.downloadHandler.text);
+					var request = await UnityWebRequest.Get(versionPath).SendWebRequest();
+					localVersionConfig = JsonMapper.ToObject<VersionConfig>(request.downloadHandler.text);
 				}
 			}
 
@@ -123,20 +118,17 @@ namespace ETModel
 					{
 						try
 						{
-							using (this.webRequest = ObjectFactory.Create<UnityWebRequestAsync>())
-							{
-								await this.webRequest.DownloadAsync(GlobalConfigComponent.Instance.GlobalProto.GetUrl() + "StreamingAssets/" + this.downloadingBundle);
-								byte[] data = this.webRequest.Request.downloadHandler.data;
+							var request = await UnityWebRequest.Get(""/*FIXME*/ + "StreamingAssets/" + this.downloadingBundle).SendWebRequest();
+							byte[] data = request.downloadHandler.data;
 
-								string path = Path.Combine(PathHelper.AppHotfixResPath, this.downloadingBundle);
-								if (!Directory.Exists(Path.GetDirectoryName(path)))
-								{
-									Directory.CreateDirectory(Path.GetDirectoryName(path));
-								}
-								using (FileStream fs = new FileStream(path, FileMode.Create))
-								{
-									fs.Write(data, 0, data.Length);
-								}
+							string path = Path.Combine(PathHelper.AppHotfixResPath, this.downloadingBundle);
+							if (!Directory.Exists(Path.GetDirectoryName(path)))
+							{
+								Directory.CreateDirectory(Path.GetDirectoryName(path));
+							}
+							using (FileStream fs = new FileStream(path, FileMode.Create))
+							{
+								fs.Write(data, 0, data.Length);
 							}
 						}
 						catch (Exception e)
@@ -149,13 +141,12 @@ namespace ETModel
 					}
 					this.downloadedBundles.Add(this.downloadingBundle);
 					this.downloadingBundle = "";
-					this.webRequest = null;
 				}
 
 				using (FileStream fs = new FileStream(Path.Combine(PathHelper.AppHotfixResPath, "Version.txt"), FileMode.Create))
 				using (StreamWriter sw = new StreamWriter(fs))
 				{
-					sw.Write(JsonHelper.ToJson(this.VersionConfig));
+					sw.Write(JsonMapper.ToJson(this.VersionConfig));
 				}
 
 				this.Tcs?.SetResult(true);
@@ -186,10 +177,7 @@ namespace ETModel
 					long size = this.VersionConfig.FileInfoDict[downloadedBundle].Size;
 					alreadyDownloadBytes += size;
 				}
-				if (this.webRequest != null)
-				{
-					alreadyDownloadBytes += (long)this.webRequest.Request.downloadedBytes;
-				}
+				/*FIXME*/
 				return (int)(alreadyDownloadBytes * 100f / this.TotalSize);
 			}
 		}

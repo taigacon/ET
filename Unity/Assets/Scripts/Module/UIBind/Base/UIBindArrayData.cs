@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace ETModel.UIBind
+namespace BK.UIBind
 {
 	public interface IUIBindArrayData
 	{

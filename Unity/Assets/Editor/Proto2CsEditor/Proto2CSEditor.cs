@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using ETModel;
+using BK;
 using UnityEditor;
 
 namespace ETEditor
@@ -35,8 +35,8 @@ namespace ETEditor
 		public static void AllProto2CS()
 		{
 			msgOpcode.Clear();
-			Proto2CS("ETModel", "OuterMessage.proto", clientMessagePath, "OuterOpcode", 100, HeadFlag.Proto);
-			GenerateOpcode("ETModel", "OuterOpcode", clientMessagePath);
+			Proto2CS("BK", "OuterMessage.proto", clientMessagePath, "OuterOpcode", 100, HeadFlag.Proto);
+			GenerateOpcode("BK", "OuterOpcode", clientMessagePath);
 
 			Proto2CS("ETHotfix", "OuterMessage.proto", serverMessagePath, "OuterOpcode", 100, HeadFlag.Proto | HeadFlag.Bson, false);
 			GenerateOpcode("ETHotfix", "OuterOpcode", serverMessagePath);
@@ -67,7 +67,7 @@ namespace ETEditor
 
 			StringBuilder sb = new StringBuilder();
 			sb.Append("using ProtoBuf;\n");
-			sb.Append("using ETModel;\n");
+			sb.Append("using BK;\n");
 			sb.Append("using System.Collections.Generic;\n");
 			sb.Append("using MongoDB.Bson.Serialization.Attributes;\n");
 			sb.Append($"namespace {ns}\n");

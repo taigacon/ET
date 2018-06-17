@@ -88,6 +88,17 @@
      <Compile Include="Assets\Editor\BuildEditor\BuildEditor.cs" />
      <Compile Include="Assets\Editor\BuildEditor\BuildHelper.cs" />
      <Compile Include="Assets\Editor\BuildEditor\BuildIOSEditor.cs" />
+     <Compile Include="Assets\Editor\ConfigEditor\XlsxExporter.cs" />
+     <Compile Include="Assets\Editor\ConfigEditor\XlsxExporter\Binary.cs" />
+     <Compile Include="Assets\Editor\ConfigEditor\XlsxExporter\Column.cs" />
+     <Compile Include="Assets\Editor\ConfigEditor\XlsxExporter\ColumnType.cs" />
+     <Compile Include="Assets\Editor\ConfigEditor\XlsxExporter\ConfigType.cs" />
+     <Compile Include="Assets\Editor\ConfigEditor\XlsxExporter\Data.cs" />
+     <Compile Include="Assets\Editor\ConfigEditor\XlsxExporter\DataView.cs" />
+     <Compile Include="Assets\Editor\ConfigEditor\XlsxExporter\Exporter.cs" />
+     <Compile Include="Assets\Editor\ConfigEditor\XlsxExporter\Pool.cs" />
+     <Compile Include="Assets\Editor\ConfigEditor\XlsxExporter\SheetView.cs" />
+     <Compile Include="Assets\Editor\ConfigEditor\XlsxExporter\Utils.cs" />
      <Compile Include="Assets\Editor\ExcelExporterEditor\ExcelExporterEditor.cs" />
      <Compile Include="Assets\Editor\ExportNavmesh.cs" />
      <Compile Include="Assets\Editor\GlobalConfigEditor\GlobalConfigEditor.cs" />
@@ -223,6 +234,9 @@
  </Reference>
  <Reference Include="UnityEngine.StandardEvents">
  <HintPath>C:/Users/Taigacon/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
+ </Reference>
+ <Reference Include="EPPlus">
+ <HintPath>D:/ET/Unity/Assets/Plugins/Editor/EPPlus.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

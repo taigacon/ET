@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ETModel
+namespace BK
 {
 	public abstract class AMHandler<Message> : IMHandler where Message: class
 	{

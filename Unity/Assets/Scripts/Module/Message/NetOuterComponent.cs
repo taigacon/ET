@@ -1,4 +1,4 @@
-﻿namespace ETModel
+﻿namespace BK
 {
 	[ObjectSystem]
 	public class NetOuterComponentAwakeSystem : AwakeSystem<NetOuterComponent>

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using ETModel.Reflection;
+using BK.Reflection;
 
-namespace ETModel.UIBind
+namespace BK.UIBind
 {
 
 	public class DataEventSet : IDisposable

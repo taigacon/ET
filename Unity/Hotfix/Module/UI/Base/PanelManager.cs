@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ETHotfix
 {
-	[ETModel.ObjectSystem]
+	[BK.ObjectSystem]
 	public class PanelManagerAwakeSystem : AwakeSystem<PanelManager>
 	{
 		public override void Awake(PanelManager self)
@@ -15,7 +15,7 @@ namespace ETHotfix
 		}
 	}
 
-	[ETModel.ObjectSystem]
+	[BK.ObjectSystem]
 	public class PanelManagerLoadSystem : LoadSystem<PanelManager>
 	{
 		public override void Load(PanelManager self)
@@ -60,7 +60,7 @@ namespace ETHotfix
 
 		public void Load()
 		{
-			Type[] types = ETModel.Game.Hotfix.GetHotfixTypes();
+			Type[] types = BK.Game.Hotfix.GetHotfixTypes();
 
 			foreach (Type type in types)
 			{
@@ -104,7 +104,7 @@ namespace ETHotfix
 				this.isLoading.Add(panelId);
 				Type type = this.panelTypes[panelId];
 				PanelConfigAttribute config = this.panelConfigAttributes[panelId];
-				await ETModel.Game.ResourcesComponent.LoadBundleAsync($"{panelId}");
+				await BK.Game.ResourcesComponent.LoadBundleAsync($"{panelId}");
 				GameObject go = GameObject.Instantiate((GameObject)Game.ResourcesComponent.GetAsset($"{panelId}", $"{panelId}.prefab"));
 				panel = (Panel)ComponentFactory.Create(type, go, config);
 				this.isLoading.Remove(panelId);

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace ETModel
+namespace BK
 {
 	public static class BundleHelper
 	{

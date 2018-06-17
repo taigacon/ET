@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 using UnityAsyncAwaitUtil;
+using UnityEngine.Networking;
 
 // We could just add a generic GetAwaiter to YieldInstruction and CustomYieldInstruction
 // but instead we add specific methods to each derived class to allow for return values
@@ -50,12 +51,20 @@ public static class IEnumeratorAwaitExtensions
         return GetAwaiterReturnVoid(instruction);
     }
 
-    public static SimpleCoroutineAwaiter<AsyncOperation> GetAwaiter(this AsyncOperation instruction)
+    public static SimpleCoroutineAwaiter<T> GetAwaiter<T>(this T instruction) where T : AsyncOperation
     {
         return GetAwaiterReturnSelf(instruction);
-    }
+	}
 
-    public static SimpleCoroutineAwaiter<UnityEngine.Object> GetAwaiter(this ResourceRequest instruction)
+	public static SimpleCoroutineAwaiter<UnityWebRequest> GetAwaiter(this UnityWebRequestAsyncOperation instruction)
+	{
+		var awaiter = new SimpleCoroutineAwaiter<UnityWebRequest>();
+		RunOnUnityScheduler(() => AsyncCoroutineRunner.Instance.StartCoroutine(
+			InstructionWrappers.UnityWebRequest(awaiter, instruction)));
+		return awaiter;
+	}
+
+	public static SimpleCoroutineAwaiter<UnityEngine.Object> GetAwaiter(this ResourceRequest instruction)
     {
         var awaiter = new SimpleCoroutineAwaiter<UnityEngine.Object>();
         RunOnUnityScheduler(() => AsyncCoroutineRunner.Instance.StartCoroutine(
@@ -74,14 +83,6 @@ public static class IEnumeratorAwaitExtensions
         var awaiter = new SimpleCoroutineAwaiter<AssetBundle>();
         RunOnUnityScheduler(() => AsyncCoroutineRunner.Instance.StartCoroutine(
             InstructionWrappers.AssetBundleCreateRequest(awaiter, instruction)));
-        return awaiter;
-    }
-
-    public static SimpleCoroutineAwaiter<UnityEngine.Object> GetAwaiter(this AssetBundleRequest instruction)
-    {
-        var awaiter = new SimpleCoroutineAwaiter<UnityEngine.Object>();
-        RunOnUnityScheduler(() => AsyncCoroutineRunner.Instance.StartCoroutine(
-            InstructionWrappers.AssetBundleRequest(awaiter, instruction)));
         return awaiter;
     }
 
@@ -373,9 +374,16 @@ public static class IEnumeratorAwaitExtensions
         {
             yield return instruction;
             awaiter.Complete(instruction.assetBundle, null);
-        }
+		}
 
-        public static IEnumerator ReturnSelf<T>(
+	    public static IEnumerator UnityWebRequest(
+		    SimpleCoroutineAwaiter<UnityWebRequest> awaiter, UnityWebRequestAsyncOperation instruction)
+	    {
+		    yield return instruction;
+		    awaiter.Complete(instruction.webRequest, null);
+	    }
+
+		public static IEnumerator ReturnSelf<T>(
             SimpleCoroutineAwaiter<T> awaiter, T instruction)
         {
             yield return instruction;

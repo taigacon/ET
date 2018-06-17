@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ETModel
+namespace BK
 {
 	public interface IAwakeSystem
 	{
@@ -27,7 +27,8 @@ namespace ETModel
 		void Run(object o, A a, B b, C c);
 	}
 
-	public abstract class AwakeSystem<T> : IAwakeSystem, IAwake
+	public abstract class AwakeSystem<T> : IAwakeSystem, IAwake 
+		where T : Component
 	{
 		public Type Type()
 		{
@@ -43,6 +44,7 @@ namespace ETModel
 	}
 
 	public abstract class AwakeSystem<T, A> : IAwakeSystem, IAwake<A>
+		where T : Component
 	{
 		public Type Type()
 		{
@@ -58,6 +60,7 @@ namespace ETModel
 	}
 
 	public abstract class AwakeSystem<T, A, B> : IAwakeSystem, IAwake<A, B>
+		where T : Component
 	{
 		public Type Type()
 		{
@@ -73,6 +76,7 @@ namespace ETModel
 	}
 
 	public abstract class AwakeSystem<T, A, B, C> : IAwakeSystem, IAwake<A, B, C>
+		where T : Component
 	{
 		public Type Type()
 		{

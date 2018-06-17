@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ProtoBuf;
 
-namespace ETModel
+namespace BK
 {
 
     [Message(Opcode.OneFrameMessage)]

@@ -4,7 +4,7 @@ using System.IO;
 using Microsoft.IO;
 using ProtoBuf;
 
-namespace ETModel
+namespace BK
 {
 	public static class ProtobufHelper
 	{

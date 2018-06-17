@@ -1,4 +1,4 @@
-﻿namespace ETModel
+﻿namespace BK
 {
 	[Node(NodeClassifyType.Root, "创建时的默认root节点,必须修改为正确的root节点")]
 	public class Root: Node

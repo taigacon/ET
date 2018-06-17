@@ -1,5 +1,5 @@
 ﻿using System;
-using ETModel;
+using BK;
 using ProtoBuf;
 
 namespace ETHotfix
@@ -19,7 +19,7 @@ namespace ETHotfix
 
 		public void Awake()
 		{
-			Type[] types = ETModel.Game.Hotfix.GetHotfixTypes();
+			Type[] types = BK.Game.Hotfix.GetHotfixTypes();
 			foreach (Type type in types)
 			{
 				object[] attrs = type.GetCustomAttributes(typeof(MessageAttribute), false);
