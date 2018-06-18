@@ -23,7 +23,6 @@ namespace BK.UIBind
 
 		private void InitBindDatas(GameObject gameObject)
 		{
-			if (gameObject.GetComponent<UIBindRoot>() != null && gameObject != this.GameObject) return;
 			//数组下的内容交给数组来注册了
 			if (gameObject.GetComponent<UIBindArrayTemplate>() != null)
 			{

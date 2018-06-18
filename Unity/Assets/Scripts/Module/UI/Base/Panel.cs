@@ -19,6 +19,7 @@ namespace BK
 		public void Awake(GameObject gameObject, PanelConfig config)
 		{
 			this.GameObject = gameObject;
+			this.BindRoot = new UIBindRoot(gameObject, config.BindViewType);
 			this.PanelId = config.PanelId;
 			this.PanelType = config.PanelType;
 			this.PanelLifespan = config.PanelLifespan;

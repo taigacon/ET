@@ -20,7 +20,6 @@ namespace BK.UIBind
 
 		private void InitBindDatas(Transform transform, BaseUIBindContainer parent = null, int arrayIndex = 0)
         {
-            if (transform.GetComponent<UIBindRoot>() != null && transform != this.transform) return;
             if (transform.GetComponent<UIBindArrayTemplate>() != null) return;
 
 	        var sNodes = StaticObject<List<BaseUINode>>.Instance;

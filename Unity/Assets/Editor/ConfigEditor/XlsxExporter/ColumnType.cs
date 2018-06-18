@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using TypeName;
+using UnityEngine.UI;
 
 namespace BKEditor.Config.Export
 {
@@ -43,6 +44,11 @@ namespace BKEditor.Config.Export
         List<KeyValuePair<string, int>> Fields { get; }
     }
 
+	public interface IIdColumnType : IColumnType
+	{
+
+	}
+
     abstract class ColumnType : IColumnType
     {
         public virtual string TypeName { get; protected set; }
@@ -56,7 +62,17 @@ namespace BKEditor.Config.Export
     {
         public List<IColumnType> CustomTypes { get; } = new List<IColumnType>();
 
-        public IColumnType ParseColumnType(string excelString)
+	    private static string GenerateTypeNameByColumnName(string columnName)
+	    {
+		    if (columnName.EndsWith("Type"))
+		    {
+			    return columnName;
+		    }
+
+		    return columnName + "Type";
+	    }
+
+        public IColumnType ParseColumnType(string excelString, string columnName)
         {
             IColumnType type = null;
             foreach(var builtinType in BuiltinColumnTypes.BuiltinTypes)
@@ -73,16 +89,16 @@ namespace BKEditor.Config.Export
                 //先处理各种类型
                 if (excelString.StartsWith("id", StringComparison.OrdinalIgnoreCase))
                 {
-                    type = ParseIdRef(ref excelString);
+                    type = ParseIdType(ref excelString);
                 }
                 else if(excelString.StartsWith("struct", StringComparison.OrdinalIgnoreCase) || 
                     excelString.StartsWith("class", StringComparison.OrdinalIgnoreCase))
                 {
-                    type = ParseCustomType(ref excelString);
+                    type = ParseCustomType(ref excelString, columnName);
                 }
                 else if(excelString.StartsWith("enum", StringComparison.OrdinalIgnoreCase))
                 {
-                    type = ParseEnumType(ref excelString);
+                    type = ParseEnumType(ref excelString, columnName);
                 }
                 else
                 {
@@ -106,7 +122,7 @@ namespace BKEditor.Config.Export
             return type;
         }
 
-        private IColumnType ParseEnumType(ref string excelString)
+        private IColumnType ParseEnumType(ref string excelString, string columnName)
         {
             excelString = excelString.Substring(4).TrimStart();
             if (excelString.StartsWith("{"))
@@ -145,14 +161,14 @@ namespace BKEditor.Config.Export
                         }
                         fields.Add(new KeyValuePair<string, int>(fieldName, value));
                     }
-                    EnumColumnType enumColumnType = new EnumColumnType(fields);
+                    EnumColumnType enumColumnType = new EnumColumnType(GenerateTypeNameByColumnName(columnName), fields);
                     return enumColumnType;
                 }
             }
             throw new Exception("Enum语法不正确，应为enum{字段名[=值], ...}");
         }
 
-        private IColumnType ParseCustomType(ref string excelString)
+        private IColumnType ParseCustomType(ref string excelString, string columnName)
         {
             if(excelString.StartsWith("struct", StringComparison.OrdinalIgnoreCase))
             {
@@ -190,7 +206,7 @@ namespace BKEditor.Config.Export
                         IColumnType columnType;
                         try
                         {
-                            columnType = ParseColumnType(fieldInfo[0]);
+                            columnType = ParseColumnType(fieldInfo[0], columnName);
                         }
                         catch(Exception e)
                         {
@@ -202,21 +218,26 @@ namespace BKEditor.Config.Export
                         }
                         fields.Add(new KeyValuePair<IColumnType, string>(columnType, fieldInfo[1]));
                     }
-                    CustomColumnType customColumnType = new CustomColumnType(fields);
+                    CustomColumnType customColumnType = new CustomColumnType(GenerateTypeNameByColumnName(columnName), fields);
                     return customColumnType;
                 }
             }
             throw new Exception("Struct语法不正确，应为struct/class{字段类型 字段名;...}");
         }
 
-        private IColumnType ParseIdRef(ref string excelString)
+        private IColumnType ParseIdType(ref string excelString)
         {
-            if (excelString[2] == '(')
+	        excelString = excelString.Substring(2).TrimStart();
+	        if (excelString == "")
+	        {
+				return new IdColumnType();
+	        }
+			if (excelString.StartsWith("("))
             {
-                int end = excelString.IndexOf(')', 2);
+                int end = excelString.IndexOf(')', 1);
                 if (end > 0)
                 {
-                    string configName = excelString.Substring(3, end - 3);
+                    string configName = excelString.Substring(1, end - 1);
                     excelString = excelString.Substring(end + 1);
                     return new RefIdColumnType(configName);
                 }
@@ -224,6 +245,35 @@ namespace BKEditor.Config.Export
             throw new Exception("Id语法不正确，应为id(Config名)");
         }
     }
+
+	class IdColumnType : ColumnType, IIdColumnType
+	{
+		public IdColumnType()
+		{
+		}
+
+		public override IData Parse(string excelString)
+		{
+			int split = excelString.IndexOf('|');
+			uint value;
+			string atlas = null;
+			if (split >= 0)
+			{
+				value = uint.Parse(excelString.Substring(0, split));
+				atlas = excelString.Substring(split + 1);
+			}
+			else
+			{
+				value = uint.Parse(excelString);
+			}
+			return new IdData(this, value, atlas);
+		}
+
+		public override void WriteToBinary(IChunkBinary binary, IData obj)
+		{
+			throw new NotImplementedException();
+		}
+	}
 
     class RefIdColumnType : ColumnType, IRefIdColumnType
     {
@@ -235,23 +285,32 @@ namespace BKEditor.Config.Export
 
         public override IData Parse(string excelString)
         {
-            return new Data(this, int.Parse(excelString));
+	        uint value;
+	        if (uint.TryParse(excelString, out value))
+			{
+				return new IdData(this, value, null);
+			}
+	        else
+	        {
+				throw new Exception("暂时不支持别名引用id");
+	        }
         }
 
         public override void WriteToBinary(IChunkBinary binary, IData obj)
         {
-            binary.Write((int)obj.Object);
+            binary.Write((uint)obj.Object);
         }
     }
 
-    class CustomColumnType : ColumnType, ICustomColumnType, IPooledColumnType
+	sealed class CustomColumnType : ColumnType, ICustomColumnType, IPooledColumnType
     {
-        public List<KeyValuePair<IColumnType, string>> Fields { get; } = new List<KeyValuePair<IColumnType, string>>();
+        public List<KeyValuePair<IColumnType, string>> Fields { get; }
         private int PoolIndex { get; set; } = -1;
 
-        public CustomColumnType(List<KeyValuePair<IColumnType, string>> fields)
+        public CustomColumnType(string typeName, List<KeyValuePair<IColumnType, string>> fields)
         {
             Fields = fields;
+	        TypeName = typeName;
             ArrayLevel = Fields.Max((pair) => pair.Key.ArrayLevel) + 1;
             if (ArrayLevel > 3)
             {
@@ -312,13 +371,14 @@ namespace BKEditor.Config.Export
         }
     }
 
-    class EnumColumnType : ColumnType, IEnumColumnType
+    sealed class EnumColumnType : ColumnType, IEnumColumnType
     {
         public List<KeyValuePair<string, int>> Fields { get; } = new List<KeyValuePair<string, int>>();
         private readonly Dictionary<string, int> fieldsDic = new Dictionary<string, int>();
 
-        public EnumColumnType(List<KeyValuePair<string, int>> fields)
+        public EnumColumnType(string typeName, List<KeyValuePair<string, int>> fields)
         {
+	        TypeName = typeName;
             Fields = fields;
             foreach(var p in fields)
             {

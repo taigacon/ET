@@ -24,6 +24,11 @@ namespace BKEditor.Config.Export
         IPooledColumnType PooledColumnType { get; }
     }
 
+	public interface IIdData : IData
+	{
+		string Atlas { get; }
+	}
+
     public static class DataExtension
     {
         public static void WriteToBinary(this IData self, IChunkBinary binary)
@@ -39,7 +44,7 @@ namespace BKEditor.Config.Export
     public class Data : IData
     {
         public IColumnType ColumnType { get; }
-        public object Object { get; private set; }
+        public object Object { get; }
         public Data(IColumnType columnType, object obj)
         {
             ColumnType = columnType;
@@ -112,4 +117,14 @@ namespace BKEditor.Config.Export
             PooledColumnType = columnType;
         }
     }
+
+	public class IdData : Data, IIdData
+	{
+		public string Atlas { get; }
+		public IdData(IColumnType columnType, object obj, string atlas) 
+			: base(columnType, obj)
+		{
+			Atlas = atlas;
+		}
+	}
 }

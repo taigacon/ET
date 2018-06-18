@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
@@ -61,9 +62,7 @@ namespace BKEditor.Config.Export
             public string this[int rowNum] => sv[rowNum, columnNumber];
             public int ColumnNumber => columnNumber;
         }
-
-        // old: 如果名字和描述都为空, 就停止了
-        // 2017年11月13日: 前三行都是空的就停止
+		
         public bool IsStopColumn(int colNum, int offset)
         {
             return string.IsNullOrEmpty(this[1 + offset, colNum]) &&
@@ -71,7 +70,7 @@ namespace BKEditor.Config.Export
                 string.IsNullOrEmpty(this[3 + offset, colNum]);
         }
 
-        public class Rows
+        public class Rows : IEnumerable<Row>
         {
             private SheetView sv;
             private int startRow, endRow;
@@ -98,6 +97,11 @@ namespace BKEditor.Config.Export
             {
                 return string.IsNullOrEmpty(row[1]);
             }
+
+	        IEnumerator IEnumerable.GetEnumerator()
+	        {
+		        return GetEnumerator();
+	        }
         }
 
         public abstract string this[int row, int col] { get; }
@@ -119,11 +123,11 @@ namespace BKEditor.Config.Export
 
     }
     
-    public class XLSSheetView : SheetView
+    public class ExcelSheetView : SheetView
     {
         private ExcelWorksheet st;
 
-        public XLSSheetView(ExcelWorksheet st, string location) : 
+        public ExcelSheetView(ExcelWorksheet st, string location) : 
             base(st.Name, location, st.Dimension.Rows, st.Dimension.Columns)
         {
             this.st = st;

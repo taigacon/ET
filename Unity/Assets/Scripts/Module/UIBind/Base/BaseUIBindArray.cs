@@ -57,7 +57,6 @@ namespace BK.UIBind
 
         private void InitBindDatas(Transform transform, int index, Transform rootTrans)
         {
-            if (transform.GetComponent<UIBindRoot>() != null) return;
             if (transform != rootTrans && transform.GetComponent<UIBindArrayTemplate>() != null) return;
 
 	        var sNodes = StaticObject<List<BaseUINode>>.Instance;
