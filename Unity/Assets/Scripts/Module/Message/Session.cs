@@ -25,11 +25,11 @@ namespace BK
 			this.Error = 0;
 			this.channel = aChannel;
 			this.requestCallback.Clear();
-			
+			long id = this.InstanceId;
 			channel.ErrorCallback += (c, e) =>
 			{
 				this.Error = e;
-				this.Network.Remove(this.InstanceId); 
+				this.Network.Remove(id); 
 			};
 			channel.ReadCallback += this.OnRead;
 			
@@ -42,6 +42,10 @@ namespace BK
 				return;
 			}
 
+			long id = this.InstanceId;
+
+			base.Dispose();
+			
 			foreach (Action<IResponse> action in this.requestCallback.Values.ToArray())
 			{
 				action.Invoke(new ResponseMessage { Error = this.Error });
@@ -49,10 +53,8 @@ namespace BK
 			
 			this.Error = 0;
 			this.channel.Dispose();
-			this.Network.Remove(InstanceId);
+			this.Network.Remove(id);
 			this.requestCallback.Clear();
-
-			base.Dispose();
 		}
 
 		public IPEndPoint RemoteAddress
