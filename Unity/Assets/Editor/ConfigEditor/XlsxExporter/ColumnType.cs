@@ -20,13 +20,17 @@ namespace BKEditor.Config.Export
         int ArrayLevel { get; }
         string DefaultValue { get; }
         IData Parse(string excelString);
-        void WriteToBinary(IChunkBinary binary, IData obj);
+        void WriteToBinary(IConfigBinary binary, IData obj);
     }
 
-    public interface IPooledColumnType : IColumnType
+	public interface IPrimitiveColomnType : IColumnType
+	{
+		Type PrimitiveType { get; }
+	}
+
+	public interface IPooledColumnType : IColumnType
     {
-        int GetPoolIndex(Pool pool, IPooledData obj);
-        void WriteToPool(IChunkBinary binary, IPooledData obj);
+        void WriteToPool(IConfigBinary binary, IPooledData obj);
     }
 
     public interface IRefIdColumnType : IColumnType
@@ -34,13 +38,19 @@ namespace BKEditor.Config.Export
         string ConfigName { get; }
     }
 
-    public interface ICustomColumnType : IColumnType
-    {
-        List<KeyValuePair<IColumnType, string>> Fields { get; }
-    }
+	public interface IStructedColumnType : IColumnType
+	{
+		List<KeyValuePair<IColumnType, string>> Fields { get; }
+	}
 
-    public interface IEnumColumnType : IColumnType
-    {
+    public interface ICustomColumnType : IStructedColumnType
+	{
+        
+    }
+	
+
+    public interface IEnumColumnType : IPrimitiveColomnType
+	{
         List<KeyValuePair<string, int>> Fields { get; }
     }
 
@@ -49,13 +59,18 @@ namespace BKEditor.Config.Export
 
 	}
 
+	public interface IArrayColumnType : IColumnType
+	{
+		IColumnType BaseType { get; }
+	}
+
     abstract class ColumnType : IColumnType
     {
         public virtual string TypeName { get; protected set; }
         public int ArrayLevel { get; protected set; } = -1;
         public string DefaultValue { get; protected set; }
         public abstract IData Parse(string excelString);
-        public abstract void WriteToBinary(IChunkBinary binary, IData obj);
+        public abstract void WriteToBinary(IConfigBinary binary, IData obj);
     }
 
     public class ColumnTypeParser
@@ -269,7 +284,7 @@ namespace BKEditor.Config.Export
 			return new IdData(this, value, atlas);
 		}
 
-		public override void WriteToBinary(IChunkBinary binary, IData obj)
+		public override void WriteToBinary(IConfigBinary binary, IData obj)
 		{
 			throw new NotImplementedException();
 		}
@@ -296,7 +311,7 @@ namespace BKEditor.Config.Export
 	        }
         }
 
-        public override void WriteToBinary(IChunkBinary binary, IData obj)
+        public override void WriteToBinary(IConfigBinary binary, IData obj)
         {
             binary.Write((uint)obj.Object);
         }
@@ -335,32 +350,12 @@ namespace BKEditor.Config.Export
             return arrayData;
         }
 
-        public int GetPoolIndex(Pool pool, IPooledData obj)
+        public override void WriteToBinary(IConfigBinary binary, IData obj)
         {
-            if (PoolIndex < 0)
-                PoolIndex = pool.GetIndex(obj);
-            IArrayData arrayData = obj as IArrayData;
-            if (arrayData != null)
-            {
-                foreach (var data in arrayData.Data)
-                {
-                    var pooledData = data as IPooledData;
-                    if (pooledData != null)
-                    {
-                        pooledData.PooledColumnType.GetPoolIndex(pool, pooledData);
-                    }
-                }
-            }
-            return PoolIndex;
+            binary.Write(((IPooledData)obj).GetPoolIndex(binary));
         }
 
-        public override void WriteToBinary(IChunkBinary binary, IData obj)
-        {
-            Pool pool = binary.GetConfigBinary().GetPool(TypeName);
-            binary.Write(GetPoolIndex(pool, (IPooledData)obj));
-        }
-
-        public void WriteToPool(IChunkBinary binary, IPooledData obj)
+	    public void WriteToPool(IConfigBinary binary, IPooledData obj)
         {
             PooledArrayData arrayData = (PooledArrayData)obj;
             binary.Write(arrayData.Count);
@@ -396,16 +391,18 @@ namespace BKEditor.Config.Export
             throw new Exception("Enum键不存在");
         }
 
-        public override void WriteToBinary(IChunkBinary binary, IData obj)
+        public override void WriteToBinary(IConfigBinary binary, IData obj)
         {
             binary.Write((int)obj.Object);
         }
+
+	    public Type PrimitiveType => typeof(Enum);
     }
 
 
     static class BuiltinColumnTypes
     {
-        public readonly static ColumnType[] BuiltinTypes = new ColumnType[]
+        public static readonly ColumnType[] BuiltinTypes = new ColumnType[]
         {
             new PrimitiveColumn<int>(),
             new PrimitiveColumn<uint>(),
@@ -413,7 +410,7 @@ namespace BKEditor.Config.Export
             new PrimitiveColumn<ulong>(),
             new PrimitiveColumn<bool>(),
             new PrimitiveColumn<float>(),
-            new PrimitiveColumn<string>(),
+            new StringColumnType(), 
             new DateTimeColumnType(),
             new Vector3ColumnType(),
             new Vector2ColumnType(),
@@ -424,8 +421,8 @@ namespace BKEditor.Config.Export
         {
             public IColumnType BaseType { get; }
             public int FixedLength { get; protected set; } = 0;
-            private int PoolIndex { get; set; } = -1;
-            public GenericArrayColumn(IColumnType baseType)
+
+	        protected GenericArrayColumn(IColumnType baseType)
             {
                 BaseType = baseType;
                 ArrayLevel = baseType.ArrayLevel + 1;
@@ -446,7 +443,17 @@ namespace BKEditor.Config.Export
                         throw new Exception($"数组长度不符合定义的长度：{FixedLength}");
                     }
                 }
-                PooledArrayData arrayData = new PooledArrayData(this);
+
+	            ArrayData arrayData;
+				//basetype是pooled的，本层不写入pool
+				if (BaseType is IPooledColumnType)
+	            {
+		            arrayData = new ArrayData(this);
+				}
+				else
+				{
+					arrayData = new PooledArrayData(this);
+				}
                 foreach (var r in result)
                 {
                     arrayData.Add(BaseType.Parse(r));
@@ -454,32 +461,25 @@ namespace BKEditor.Config.Export
                 return arrayData;
             }
 
-            public override void WriteToBinary(IChunkBinary binary, IData obj)
-            {
-                Pool pool = binary.GetConfigBinary().GetPool(TypeName);
-                binary.Write(GetPoolIndex(pool, (IPooledData)obj));
-            }
+			public override void WriteToBinary(IConfigBinary binary, IData obj)
+			{
+				var pooledData = obj as IPooledData;
+				if (pooledData != null)
+				{
+					binary.Write(pooledData.GetPoolIndex(binary));
+				}
+				else
+				{
+					IArrayData arrayData = (IArrayData)obj;
+					binary.Write(arrayData.Count);
+					foreach (var data in arrayData.Data)
+					{
+						data.WriteToBinary(binary);
+					}
+				}
+			}
 
-            public int GetPoolIndex(Pool pool, IPooledData obj)
-            {
-                if(PoolIndex < 0)
-                    PoolIndex = pool.GetIndex(obj);
-                IArrayData arrayData = obj as IArrayData;
-                if(arrayData != null)
-                {
-                    foreach(var data in arrayData.Data)
-                    {
-                        var pooledData = data as IPooledData;
-                        if(pooledData != null)
-                        {
-                            pooledData.PooledColumnType.GetPoolIndex(pool, pooledData);
-                        }
-                    }
-                }
-                return PoolIndex;
-            }
-
-            public virtual void WriteToPool(IChunkBinary binary, IPooledData obj)
+			public virtual void WriteToPool(IConfigBinary binary, IPooledData obj)
             {
                 PooledArrayData arrayData = (PooledArrayData)obj;
                 binary.Write(arrayData.Count);
@@ -490,8 +490,8 @@ namespace BKEditor.Config.Export
             }
         }
 
-        public class ArrayColumn : GenericArrayColumn
-        {
+        public class ArrayColumn : GenericArrayColumn, IArrayColumnType
+		{
             public override string TypeName => base.TypeName + "[]";
 
             public ArrayColumn(IColumnType baseType)
@@ -501,7 +501,33 @@ namespace BKEditor.Config.Export
             }
         }
 
-        public class PrimitiveColumn<T> : ColumnType
+	    public sealed class StringColumnType : ColumnType, IPooledColumnType, IPrimitiveColomnType
+		{
+			public StringColumnType()
+			{
+				TypeName = "string";
+				DefaultValue = "";
+			}
+			private int PoolIndex { get; set; } = -1;
+			public override IData Parse(string excelString)
+		    {
+			    return new PooledData(this, excelString);
+		    }
+
+			public override void WriteToBinary(IConfigBinary binary, IData obj)
+			{
+				binary.Write(((IPooledData)obj).GetPoolIndex(binary));
+			}
+
+			public void WriteToPool(IConfigBinary binary, IPooledData obj)
+		    {
+			    binary.Write((string)obj.Object);
+		    }
+
+			public Type PrimitiveType => typeof(string);
+		}
+
+		public sealed class PrimitiveColumn<T> : ColumnType, IPrimitiveColomnType
         {
             public PrimitiveColumn()
             {
@@ -514,7 +540,7 @@ namespace BKEditor.Config.Export
                 return new Data(this, Convert.ChangeType(excelString, typeof(T)));
             }
 
-            public override void WriteToBinary(IChunkBinary binary, IData data)
+            public override void WriteToBinary(IConfigBinary binary, IData data)
             {
                 if(typeof(T) == typeof(int))
                 {
@@ -541,11 +567,14 @@ namespace BKEditor.Config.Export
                     binary.Write((bool)data.Object);
                 }
             }
+
+	        public Type PrimitiveType => typeof(T);
         }
 
-        public class DateTimeColumnType : ColumnType
+        public sealed class DateTimeColumnType : ColumnType, IStructedColumnType
         {
-            public DateTimeColumnType()
+			private static readonly List<KeyValuePair<IColumnType, string>>
+			public DateTimeColumnType()
             {
                 TypeName = "DateTime";
             }
@@ -559,7 +588,7 @@ namespace BKEditor.Config.Export
                 return new Data(this, DateTime.ParseExact(excelString, "yyyy-MM-dd hh:mm:ss", CultureInfo.InvariantCulture));
             }
 
-            public override void WriteToBinary(IChunkBinary binary, IData obj)
+            public override void WriteToBinary(IConfigBinary binary, IData obj)
             {
                 if(obj.Object == null)
                 {
@@ -569,8 +598,12 @@ namespace BKEditor.Config.Export
                 {
                     DateTime dt = (DateTime)obj.Object;
                     binary.Write(new DateTimeOffset(dt).ToUnixTimeSeconds());
+
+					DateTimeOffset.FromUnixTimeSeconds(1).DateTime
                 }
             }
+
+	        public List<KeyValuePair<IColumnType, string>> Fields { get; }
         }
 
         public class Vector3ColumnType : GenericArrayColumn
@@ -582,7 +615,7 @@ namespace BKEditor.Config.Export
                 TypeName = "Vector3";
             }
 
-            public override void WriteToBinary(IChunkBinary binary, IData obj)
+            public override void WriteToBinary(IConfigBinary binary, IData obj)
             {
                 List<IData> data = (List<IData>)obj.Object;
                 binary.Write((float)data[0].Object);
@@ -600,7 +633,7 @@ namespace BKEditor.Config.Export
                 TypeName = "Vector2";
             }
 
-            public override void WriteToBinary(IChunkBinary binary, IData obj)
+            public override void WriteToBinary(IConfigBinary binary, IData obj)
             {
                 List<IData> data = (List<IData>)obj.Object;
                 binary.Write((float)data[0].Object);
@@ -633,7 +666,7 @@ namespace BKEditor.Config.Export
                 return new Data(this, result);
             }
 
-            public override void WriteToBinary(IChunkBinary binary, IData obj)
+            public override void WriteToBinary(IConfigBinary binary, IData obj)
             {
                 binary.Write((int)obj.Object);
             }

@@ -22,6 +22,7 @@ namespace BKEditor.Config.Export
     public interface IPooledData : IData
     {
         IPooledColumnType PooledColumnType { get; }
+	    int GetPoolIndex(IConfigBinary binary);
     }
 
 	public interface IIdData : IData
@@ -31,11 +32,11 @@ namespace BKEditor.Config.Export
 
     public static class DataExtension
     {
-        public static void WriteToBinary(this IData self, IChunkBinary binary)
+        public static void WriteToBinary(this IData self, IConfigBinary binary)
         {
             self.ColumnType.WriteToBinary(binary, self);
         }
-        public static void WriteToPool(this IPooledData self, IChunkBinary binary)
+        public static void WriteToPool(this IPooledData self, IConfigBinary binary)
         {
             self.PooledColumnType.WriteToPool(binary, self);
         }
@@ -69,6 +70,18 @@ namespace BKEditor.Config.Export
             PooledColumnType = columnType;
         }
 
+	    private int poolIndex = -1;
+
+	    public int GetPoolIndex(IConfigBinary binary)
+	    {
+			if (poolIndex < 0)
+			{
+				Pool pool = binary.GetPool(PooledColumnType);
+				poolIndex = pool.GetIndex(this);
+		    }
+
+		    return poolIndex;
+		}
     }
 
     public class ArrayData : IArrayData
@@ -87,12 +100,13 @@ namespace BKEditor.Config.Export
         }
         public override int GetHashCode()
         {
-            int hashcode = 0;
-            foreach(var obj in Data)
+			const int salt = 23;
+	        var hash = 17;
+			foreach (var obj in Data)
             {
-                hashcode ^= obj.GetHashCode();
+	            hash += salt * obj.GetHashCode();
             }
-            return hashcode;
+            return hash;
         }
         public override bool Equals(object obj)
         {
@@ -115,8 +129,24 @@ namespace BKEditor.Config.Export
             : base(columnType)
         {
             PooledColumnType = columnType;
-        }
-    }
+		}
+
+	    private int poolIndex = -1;
+	    public int GetPoolIndex(IConfigBinary binary)
+	    {
+		    if (poolIndex < 0)
+		    {
+			    Pool pool = binary.GetPool(PooledColumnType);
+			    poolIndex = pool.GetIndex(this);
+			    foreach (var data in Data)
+			    {
+				    (data as IPooledData)?.GetPoolIndex(binary);
+			    }
+			}
+
+		    return poolIndex;
+	    }
+	}
 
 	public class IdData : Data, IIdData
 	{

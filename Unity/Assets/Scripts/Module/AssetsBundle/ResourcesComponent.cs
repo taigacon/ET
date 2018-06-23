@@ -103,6 +103,11 @@ namespace BK
 			return resource;
 		}
 
+		public T GetAsset<T>(string bundleName, string prefab) where T : UnityEngine.Object
+		{
+			return (T)GetAsset(bundleName, prefab);
+		}
+
 		public void UnloadBundle(string assetBundleName)
 		{
 			assetBundleName = assetBundleName.ToLower();

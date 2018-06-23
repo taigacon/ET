@@ -30,5 +30,7 @@ namespace BKEditor.Config.Export
         {
             return list.GetEnumerator();
         }
+
+	    public int Count => list.Count;
     }
 }

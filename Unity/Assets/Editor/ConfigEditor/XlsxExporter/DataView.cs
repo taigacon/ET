@@ -108,5 +108,79 @@ namespace BKEditor.Config.Export
 				SubColumnHeaders.Add(subColumnHeader);
 			}
 	    }
+
+	    public List<IData[]> ReadData()
+	    {
+			List<IData[]> dataList = new List<IData[]>();
+		    foreach (var row in MainSheetView.GetRows(6, MainSheetView.MaxRow))
+		    {
+			    if(row.IsCommentRow())
+					continue;
+			    var data = new IData[ColumnHeaders.Count];
+				dataList.Add(data);
+			    for (var index = 0; index < ColumnHeaders.Count; index++)
+			    {
+				    var columnHeader = ColumnHeaders[index];
+				    try
+				    {
+					    string excelString = row[columnHeader.ColumnNum];
+					    if (excelString.Length == 0)
+					    {
+						    data[index] = columnHeader.DefaultData;
+					    }
+					    else
+					    {
+						    data[index] = columnHeader.ParseRow(excelString);
+						}
+				    }
+				    catch (Exception e)
+				    {
+					    throw new Exception($"{e.Message}\n在读取表{MainSheetView.Name}中的第{row.RowNum}行第{columnHeader.ColumnNum}列时", e);
+				    }
+			    }
+		    }
+
+		    for (var i = 0; i < SubSheetViews.Count; i++)
+		    {
+			    var subSheetView = SubSheetViews[i];
+			    var columnHeaders = SubColumnHeaders[i];
+			    foreach (var row in subSheetView.GetRows(6, subSheetView.MaxRow))
+			    {
+				    if (row.IsCommentRow())
+					    continue;
+				    var data = new IData[columnHeaders.Count];
+				    dataList.Add(data);
+				    for (var index = 0; index < columnHeaders.Count; index++)
+				    {
+					    var columnHeader = columnHeaders[index];
+					    try
+					    {
+						    if (columnHeader == null)
+						    {
+							    data[index] = ColumnHeaders[index].DefaultData;
+						    }
+						    else
+							{
+								string excelString = row[columnHeader.ColumnNum];
+								if (excelString.Length == 0)
+								{
+									data[index] = columnHeader.DefaultData;
+								}
+								else
+								{
+									data[index] = columnHeader.ParseRow(excelString);
+								}
+							}
+					    }
+					    catch (Exception e)
+					    {
+						    throw new Exception($"{e.Message}\n在读取子表{subSheetView.Name}中的第{row.RowNum}行第{columnHeader?.ColumnNum}列时", e);
+					    }
+				    }
+			    }
+		    }
+
+		    return dataList;
+	    }
     }
 }

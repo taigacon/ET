@@ -20,17 +20,16 @@ namespace BKEditor.Config.Export
                 return defaultData;
             }
         }
-        private SheetView.Column SheetColumn { get; }
         
         public Column(DataView dataView, SheetView sheetView, int colNum)
         {
             ColumnNum = colNum;
-	        SheetColumn = sheetView.GetColumn(colNum);
-            Name = SheetColumn[2];
-	        ColumnTypeString = SheetColumn[4];
+	        var sheetColumn = sheetView.GetColumn(colNum);
+            Name = sheetColumn[2];
+	        ColumnTypeString = sheetColumn[4];
 			ColumnType = dataView.ColumnTypeParser.ParseColumnType(ColumnTypeString, Name);
-            ConfigTypes = Utils.ParseConfigTypes(SheetColumn[5]);
-            DefaultValue = SheetColumn[3] == "" ? ColumnType.DefaultValue : SheetColumn[3];
+            ConfigTypes = Utils.ParseConfigTypes(sheetColumn[5]);
+            DefaultValue = sheetColumn[3] == "" ? ColumnType.DefaultValue : sheetColumn[3];
 			//ID检查
 	        if (colNum == 1)
 	        {
@@ -45,9 +44,9 @@ namespace BKEditor.Config.Export
 			}
 		}
 
-        public IData ParseRow(int row)
+        public IData ParseRow(string excelString)
         {
-            return ColumnType.Parse(SheetColumn[row]);
+            return ColumnType.Parse(excelString);
         }
     }
 }
