@@ -20,6 +20,11 @@ namespace BK
 			return ProtobufHelper.FromBytes(type, bytes);
 		}
 
+		public object DeserializeFrom(Type type, Stream stream)
+		{
+			return ProtobufHelper.FromStream(type, stream);
+		}
+
 		public object DeserializeFrom(Type type, byte[] bytes, int index, int count)
 		{
 			return ProtobufHelper.FromBytes(type, bytes, index, count);
