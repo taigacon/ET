@@ -57,6 +57,7 @@ namespace ILRuntime.Runtime.Enviorment
         public unsafe AppDomain()
         {
             AllowUnboundCLRMethod = true;
+            InvocationContext.InitializeDefaultConverters();
             loadedAssemblies = System.AppDomain.CurrentDomain.GetAssemblies();
             var mi = typeof(System.Runtime.CompilerServices.RuntimeHelpers).GetMethod("InitializeArray");
             RegisterCLRMethodRedirection(mi, CLRRedirections.InitializeArray);
@@ -121,6 +122,14 @@ namespace ILRuntime.Runtime.Enviorment
                 if (i.Name == "GetValues" && i.GetParameters().Length == 1)
                 {
                     RegisterCLRMethodRedirection(i, CLRRedirections.EnumGetValues);
+                }
+                if (i.Name == "GetNames" && i.GetParameters().Length == 1)
+                {
+                    RegisterCLRMethodRedirection(i, CLRRedirections.EnumGetNames);
+                }
+                if(i.Name == "GetName")
+                {
+                    RegisterCLRMethodRedirection(i, CLRRedirections.EnumGetName);
                 }
             }
             mi = typeof(System.Type).GetMethod("GetTypeFromHandle");
@@ -769,7 +778,7 @@ namespace ILRuntime.Runtime.Enviorment
                         }
                         else
                             val = GetType(gType.GenericArguments[i], contextType, contextMethod);
-                        if (val != null && val.HasGenericParameter)
+                        if (val != null && gType.GenericArguments[i].ContainsGenericParameter)
                             dummyGenericInstance = true;
                         if (val != null)
                             genericArguments[i] = new KeyValuePair<string, IType>(key, val);
@@ -880,7 +889,6 @@ namespace ILRuntime.Runtime.Enviorment
         /// <returns></returns>
         public T Instantiate<T>(string type, object[] args = null)
         {
-            Console.WriteLine("**Calling: Instantiate<T>");
             ILTypeInstance ins = Instantiate(type, args);
             return (T)ins.CLRInstance;
         }
@@ -911,6 +919,22 @@ namespace ILRuntime.Runtime.Enviorment
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Prewarm all methods of the specified type
+        /// </summary>
+        /// <param name="type"></param>
+        public void Prewarm(string type)
+        {
+            IType t = GetType(type);
+            if (t == null || t is CLRType)
+                return;
+            var methods = t.GetMethods();
+            foreach(var i in methods)
+            {
+                ((ILMethod)i).Prewarm();
+            }
         }
 
         /// <summary>
