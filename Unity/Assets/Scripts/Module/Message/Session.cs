@@ -26,7 +26,7 @@ namespace BK
 			this.Error = 0;
 			this.channel = aChannel;
 			this.requestCallback.Clear();
-			long id = this.InstanceId;
+			ulong id = this.InstanceId;
 			channel.ErrorCallback += (c, e) =>
 			{
 				this.Error = e;
@@ -43,7 +43,7 @@ namespace BK
 				return;
 			}
 
-			long id = this.InstanceId;
+			ulong id = this.InstanceId;
 
 			base.Dispose();
 			
@@ -54,7 +54,7 @@ namespace BK
 
 			if (this.Error != 0)
 			{
-				Log.Error($"session dispose: {this.Id} {this.Error}");
+				Log.Error($"session dispose: {id} {this.Error}");
 			}
 
 			this.Error = 0;
