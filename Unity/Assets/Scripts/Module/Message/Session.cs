@@ -44,7 +44,7 @@ namespace BK
 
 			foreach (Action<IResponse> action in this.requestCallback.Values.ToArray())
 			{
-				action.Invoke(new ResponseMessage { Error = ErrorCode.ERR_SessionDispose });
+				action.Invoke(new ResponseMessage { Error = this.Error });
 			}
 			
 			this.Error = 0;
@@ -147,7 +147,7 @@ namespace BK
 			{
 				try
 				{
-					if (response.Error > ErrorCode.ERR_Exception)
+					if (ErrorCode.IsRpcNeedThrowException(response.Error))
 					{
 						throw new RpcException(response.Error, response.Message);
 					}
@@ -174,7 +174,7 @@ namespace BK
 			{
 				try
 				{
-					if (response.Error > ErrorCode.ERR_Exception)
+					if (ErrorCode.IsRpcNeedThrowException(response.Error))
 					{
 						throw new RpcException(response.Error, response.Message);
 					}

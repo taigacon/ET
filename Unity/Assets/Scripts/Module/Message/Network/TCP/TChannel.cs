@@ -74,6 +74,7 @@ namespace BK
 				this.ConnectAsync(this.RemoteAddress);
 				return;
 			}
+			
 			this.StartRecv();
 			this.StartSend();
 		}
