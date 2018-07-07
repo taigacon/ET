@@ -96,6 +96,11 @@ namespace BKEditor.Base
 					{
 						*(ptr + 2 + i) = ptr2[i];
 					}
+					// align
+					for (int i = strBytes.Length; i < safesize - 2; i++)
+					{
+						*(ptr + 2 + i) = 0;
+					}
 				}
 				offset += safesize;
 			}

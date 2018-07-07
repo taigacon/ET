@@ -6,7 +6,7 @@ namespace BKEditor.Config.Export
     {
         public int ColumnNum { get; }
         public string Name { get; }
-        public string DefaultValue { get; }
+	    public string DefaultValue { get; }
 		public string ColumnTypeString { get; }
         public IColumnType ColumnType { get; }
         public ConfigTypes ConfigTypes { get; }
@@ -27,7 +27,14 @@ namespace BKEditor.Config.Export
 	        var sheetColumn = sheetView.GetColumn(colNum);
             Name = sheetColumn[2];
 	        ColumnTypeString = sheetColumn[4];
-			ColumnType = dataView.ColumnTypeParser.ParseColumnType(ColumnTypeString, Name);
+	        try
+			{
+				ColumnType = dataView.ColumnTypeParser.ParseColumnType(ColumnTypeString, Name);
+			}
+	        catch (Exception e)
+	        {
+		        throw new Exception($"类型{ColumnTypeString}解析失败", e);
+	        }
             ConfigTypes = Utils.ParseConfigTypes(sheetColumn[5]);
             DefaultValue = sheetColumn[3] == "" ? ColumnType.DefaultValue : sheetColumn[3];
 			//ID检查
